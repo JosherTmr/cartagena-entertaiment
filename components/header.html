@@ -1,13 +1,45 @@
-<!-- ======== NAVEGACIÓN ======== -->
 <header class="main-header">
-    <nav class="navbar container">
-        <a href="/" class="logo">AventuraCaribe</a>
-        <ul class="nav-links">
-            <li><a href="/#destinos">Destinos</a></li>
-            <li><a href="/#planes">Planes</a></li>
-            <li><a href="/#nosotros">Nosotros</a></li>
-            <li><a href="/#blog">Blog</a></li>
-            <li><a href="/#contacto" class="btn btn-secondary">Contacto</a></li>
-        </ul>
-    </nav>
+    <div class="header-top-bar">
+        <div class="container">
+            <a href="/" class="logo">Cartagena Entertainment</a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="/index.html#destinos">Destinos</a></li>
+                    <li><a href="/pages/quienes-somos.html">Quiénes Somos</a></li>
+                    <li><a href="/index.html#planes">Planes</a></li>
+                    <li><a href="/index.html#blog">Blog</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="/index.html#contacto" class="btn btn-secondary">Contacto</a>
+                <button class="menu-toggle" aria-label="Abrir menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="header-booking-bar">
+        <div class="container">
+            <div class="booking-form-container">
+                <div class="form-group">
+                    <label for="activity-select"><i class="fas fa-ship"></i> Actividad</label>
+                    <select id="activity-select" name="activity">
+                        <option value="yacht">Yates</option>
+                        <option value="sailboat">Veleros</option>
+                        <option value="catamaran">Catamaranes</option>
+                        <option value="mansion">Mansiones</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="start-date"><i class="fas fa-calendar-alt"></i> Fecha de inicio</label>
+                    <input type="date" id="start-date" name="start-date">
+                </div>
+                <div class="form-group">
+                    <label for="end-date"><i class="fas fa-calendar-alt"></i> Fecha de fin</label>
+                    <input type="date" id="end-date" name="end-date">
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+    </div>
 </header>

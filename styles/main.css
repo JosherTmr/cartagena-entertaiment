@@ -225,6 +225,61 @@ body {
     width: 100%;
 }
 
+/* Dropdown Menu Styles */
+.nav-item-dropdown {
+    position: relative;
+}
+
+.nav-item-dropdown .fa-chevron-down {
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    list-style: none;
+    padding: 10px 0;
+    margin-top: 10px; /* Space between nav link and dropdown */
+    min-width: 220px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 100;
+}
+
+.nav-item-dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    padding: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--color-dark);
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f7f9f8;
+    color: var(--color-primary);
+}
+
+.dropdown-menu li a::after {
+    content: none; /* Remove the underline effect from dropdown links */
+}
+
 .header-actions {
     display: flex;
     align-items: center;
@@ -702,6 +757,138 @@ body {
 
 
 /* =================================
+   PÁGINA DE SERVICIOS
+   ================================= */
+.hero-servicios {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/images/hero-servicios.jpg') no-repeat center center/cover;
+}
+
+.filters-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.filters-bar .filter-btn {
+    background-color: var(--color-background);
+    border: 1px solid #ddd;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.filters-bar .filter-btn:hover {
+    background-color: var(--mint);
+    color: var(--color-white);
+    border-color: var(--mint);
+}
+
+.filters-bar .filter-btn.active {
+    background-color: var(--keppel);
+    color: var(--color-white);
+    border-color: var(--keppel);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.featured-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.service-card .card-content {
+    position: relative;
+    padding-top: 40px; /* Espacio para el tag */
+}
+
+.category-tag {
+    position: absolute;
+    top: -15px;
+    left: 25px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.section-footer {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* =================================
+   PÁGINA DE DETALLE DE SERVICIO
+   ================================= */
+.service-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: flex-start;
+    color: var(--color-dark); /* Ensure text is readable */
+}
+
+.service-main-image {
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.service-detail-right h1 {
+    font-family: var(--font-secondary);
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+}
+
+.service-detail-right .category-tag {
+    position: static; /* Reset position */
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.service-detail-right .main-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.key-points-section {
+    background-color: #f7f9f8;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+}
+
+.key-points-section h2 {
+    font-family: var(--font-secondary);
+    margin-bottom: 20px;
+}
+
+.key-points-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.key-points-section ul li {
+    margin-bottom: 15px;
+}
+
+.key-points-section ul li strong {
+    display: block;
+    color: var(--color-dark);
+}
+
+/* =================================
    DISEÑO RESPONSIVE
    ================================= */
 @media (max-width: 768px) {
@@ -771,5 +958,14 @@ body {
 
     .cta-section h2 {
         font-size: 1.8rem;
+    }
+
+    /* Responsive para servicios */
+    .service-detail-container {
+        grid-template-columns: 1fr;
+    }
+
+    .service-detail-right h1 {
+        font-size: 2.2rem;
     }
 }

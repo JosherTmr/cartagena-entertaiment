@@ -225,6 +225,61 @@ body {
     width: 100%;
 }
 
+/* Dropdown Menu Styles */
+.nav-item-dropdown {
+    position: relative;
+}
+
+.nav-item-dropdown .fa-chevron-down {
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    list-style: none;
+    padding: 10px 0;
+    margin-top: 10px; /* Space between nav link and dropdown */
+    min-width: 220px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 100;
+}
+
+.nav-item-dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    padding: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--color-dark);
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f7f9f8;
+    color: var(--color-primary);
+}
+
+.dropdown-menu li a::after {
+    content: none; /* Remove the underline effect from dropdown links */
+}
+
 .header-actions {
     display: flex;
     align-items: center;
@@ -780,6 +835,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 50px;
     align-items: flex-start;
+    color: var(--color-dark); /* Ensure text is readable */
 }
 
 .service-main-image {

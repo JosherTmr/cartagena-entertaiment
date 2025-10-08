@@ -41,6 +41,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
             });
+
+            // --- LÓGICA PARA EL DROPDOWN DE SERVICIOS ---
+            const servicesDropdownMenu = document.getElementById('services-dropdown-menu');
+            if (servicesDropdownMenu) {
+                fetch('data/servicios.json')
+                    .then(res => res.json())
+                    .then(serviceData => {
+                        const categories = [...new Set(serviceData.services.map(service => service.category))];
+
+                        const allServicesLi = document.createElement('li');
+                        allServicesLi.innerHTML = `<a href="/pages/servicios.html">Todos los Servicios</a>`;
+                        servicesDropdownMenu.appendChild(allServicesLi);
+
+                        categories.forEach(category => {
+                            const li = document.createElement('li');
+                            const categoryParam = encodeURIComponent(category);
+                            li.innerHTML = `<a href="/pages/servicios.html?category=${categoryParam}">${category}</a>`;
+                            servicesDropdownMenu.appendChild(li);
+                        });
+                    })
+                    .catch(error => console.error('Error loading service categories:', error));
+            }
             // --- FIN DE LA LÓGICA INYECTADA ---
         });
 

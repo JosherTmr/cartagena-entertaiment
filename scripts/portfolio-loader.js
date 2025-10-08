@@ -62,11 +62,21 @@ function renderServiceCards(services, containerSelector) {
 
 // 3. Lógica para la página de servicios (servicios.html)
 async function initServicesPage() {
-    const services = await fetchServices();
-    renderServiceCards(services, '.services-grid');
+    const params = new URLSearchParams(window.location.search);
+    const initialCategory = params.get('category') || 'Todos';
 
+    const services = await fetchServices();
     const filtersBar = document.querySelector('.filters-bar');
+
+    // 1. Initial render based on URL parameter
+    const initialServices = initialCategory === 'Todos'
+        ? services
+        : services.filter(service => service.category === initialCategory);
+    renderServiceCards(initialServices, '.services-grid');
+
+    // 2. Generate filter buttons and set the correct active state
     if (!filtersBar) return;
+    filtersBar.innerHTML = ''; // Clear any existing buttons
 
     const categories = ['Todos', ...new Set(services.map(service => service.category))];
 
@@ -74,20 +84,40 @@ async function initServicesPage() {
         const button = document.createElement('button');
         button.className = 'filter-btn';
         button.textContent = category;
-        if (category === 'Todos') {
+
+        if (category === initialCategory) {
             button.classList.add('active');
         }
+
         button.addEventListener('click', () => {
+            // Update active state on all buttons
             document.querySelectorAll('.filters-bar .filter-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
+            // Filter and render services
             const filteredServices = category === 'Todos'
                 ? services
                 : services.filter(service => service.category === category);
 
             renderServiceCards(filteredServices, '.services-grid');
+
+            // Optional: Update URL without reloading page
+            const url = new URL(window.location);
+            if (category === 'Todos') {
+                url.searchParams.delete('category');
+            } else {
+                url.searchParams.set('category', category);
+            }
+            history.pushState({}, '', url);
         });
         filtersBar.appendChild(button);
+    });
+
+    // Handle back/forward browser navigation
+    window.addEventListener('popstate', () => {
+        const popParams = new URLSearchParams(window.location.search);
+        const popCategory = popParams.get('category') || 'Todos';
+        initServicesPage(); // Re-initialize to reflect the new state
     });
 }
 

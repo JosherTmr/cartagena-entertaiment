@@ -16,9 +16,6 @@
 
     <!-- Hoja de Estilos Principal -->
     <link rel="stylesheet" href="styles/main.css">
-    
-    <!-- Hoja de Estilos Principal -->
-    <link rel="stylesheet" href="styles/main.css">
 
 </head>
 <body>
@@ -26,11 +23,16 @@
         <!-- ======== SECCIÓN HERO ======== -->
         <section id="inicio" class="hero">
             <div class="hero-content">
-                <h1 class="animate-on-scroll">Vive experiencias únicas en el Caribe Colombiano</h1>
-                <p class="animate-on-scroll">Explora, descubre y viaja con nosotros.</p>
-                <a href="#destinos" class="btn btn-primary animate-on-scroll">Explorar destinos</a>
+                <h1 class="animate-on-scroll">El Caribe a tu manera</h1>
+                <p class="animate-on-scroll">Diseñamos experiencias inolvidables para ti.</p>
+                <a href="#planes" class="btn btn-primary animate-on-scroll">Explorar experiencias</a>
             </div>
         </section>
+
+        <!-- Contenedor para el resumen dinámico de la actividad -->
+        <div id="dynamic-activity-summary" class="dynamic-summary-container">
+            <!-- El resumen de la actividad se insertará aquí dinámicamente -->
+        </div>
 
         <!-- ======== BOTÓN FLOTANTE DE WHATSAPP ======== -->
         <a href="https://wa.me/TUNUMERODEWHATSAPP" target="_blank" class="whatsapp-float">
@@ -60,7 +62,7 @@
             <div class="destinos-grid">
                 <!-- Tarjeta de Destino 1 -->
                 <div class="card destino-card animate-on-scroll" data-category="playa">
-                    <img src="assets/images/destino-cartagena.jpg" alt="Cartagena de Indias">
+                    <img src="assets/images/destino-cartagena.jpg" alt="Cartagena de Indias" loading="lazy">
                     <div class="card-content">
                         <h3>Cartagena de Indias</h3>
                         <p>Historia, color y la magia del Caribe en una ciudad amurallada.</p>
@@ -69,7 +71,7 @@
                 </div>
                 <!-- Tarjeta de Destino 2 -->
                 <div class="card destino-card animate-on-scroll" data-category="montana">
-                    <img src="assets/images/destino-tayrona.jpg" alt="Parque Tayrona">
+                    <img src="assets/images/destino-tayrona.jpg" alt="Parque Tayrona" loading="lazy">
                     <div class="card-content">
                         <h3>Parque Tayrona</h3>
                         <p>La selva se encuentra con el mar en este paraíso natural.</p>
@@ -78,7 +80,7 @@
                 </div>
                 <!-- Tarjeta de Destino 3 -->
                 <div class="card destino-card animate-on-scroll" data-category="cultura">
-                    <img src="assets/images/destino-guajira.jpg" alt="La Guajira">
+                    <img src="assets/images/destino-guajira.jpg" alt="La Guajira" loading="lazy">
                     <div class="card-content">
                         <h3>Desierto de la Guajira</h3>
                         <p>Un paisaje surrealista donde el desierto se une con el mar Caribe.</p>
@@ -129,7 +131,7 @@
                     <p>Nacimos de la pasión por compartir la belleza auténtica de Colombia. Creemos en un turismo responsable que conecta a los viajeros con la naturaleza y la cultura local. Nuestro equipo está formado por expertos locales que aman lo que hacen.</p>
                     <p><strong>Nuestra misión:</strong> crear recuerdos imborrables y experiencias que transforman.</p>
                 </div>
-                <img src="assets/images/team-photo.jpg" alt="Equipo de AventuraCaribe" class="about-image">
+                <img src="assets/images/team-photo.jpg" alt="Equipo de AventuraCaribe" class="about-image" loading="lazy">
             </div>
         </section>
 
@@ -161,7 +163,7 @@
             <h2 class="section-title animate-on-scroll">Guía del Viajero</h2>
             <div class="blog-grid">
                  <div class="card blog-card animate-on-scroll">
-                    <img src="assets/images/blog-post-1.jpg" alt="Comida caribeña">
+                    <img src="assets/images/blog-post-1.jpg" alt="Comida caribeña" loading="lazy">
                     <div class="card-content">
                         <h3>10 platos que debes probar en el Caribe Colombiano</h3>
                         <p>Descubre la gastronomía local que deleitará tu paladar...</p>
@@ -169,7 +171,7 @@
                     </div>
                 </div>
                  <div class="card blog-card animate-on-scroll">
-                    <img src="assets/images/blog-post-2.jpg" alt="Ropa para viajar">
+                    <img src="assets/images/blog-post-2.jpg" alt="Ropa para viajar" loading="lazy">
                     <div class="card-content">
                         <h3>¿Qué empacar para tu viaje a la Sierra Nevada?</h3>
                         <p>Una guía completa para que no te falte nada en tu aventura...</p>
@@ -209,8 +211,9 @@
             </div>
         </section>
     </main>
-    <script src="scripts/loadComponents-root.js"></script>
-    <script src="scripts/portfolio-loader.js"></script>
-    <script src="scripts/main.js" defer></script>
+    <script src="js/loadComponents-root.js"></script>
+    <script src="js/portfolio-loader.js"></script>
+    <script src="js/destinations-loader.js"></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>

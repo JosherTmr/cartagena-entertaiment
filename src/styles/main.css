@@ -2,26 +2,20 @@
    VARIABLES Y ESTILOS GLOBALES
    ================================= */
    :root {
-    /* Nueva paleta de colores */
-    --hookers-green: #486b65ff;
-    --keppel: #59b4a3ff;
-    --mint: #57aa80ff;
-    --celadon: #adedcbff;
-    --licorice: #211916ff;
-
-    /* Asignación a roles semánticos */
-    --color-primary: var(--keppel);      /* Color principal para botones y enlaces */
-    --color-secondary: var(--mint);      /* Color secundario para acentos */
-    --color-dark: var(--licorice);     /* Color para texto principal */
-    --color-light: var(--celadon);     /* Color para fondos claros */
-    --color-background: #fcfcfc;       /* Fondo general un poco más suave que blanco puro */
+    /* Nueva paleta de colores basada en el logo */
+    --color-primary: #59B4A3;      /* keppel: para botones, enlaces y CTAs */
+    --color-secondary: #57AA80;    /* mint: para íconos o acentos visuales */
+    --color-background-light: #F0F8F7; /* Un tono muy claro derivado de celadon para fondos */
+    --color-background-base: #ADEDcb;   /* celadon: para fondos de secciones destacadas */
+    --color-text: #211916;         /* licorice: para textos y elementos oscuros */
+    --color-container-border: #486B65; /* hookers-green: para sombras, bordes o contenedores */
     --color-white: #FFFFFF;
-    
+
+    /* Variables semánticas */
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Montserrat', sans-serif;
-
     --border-radius: 8px;
-    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -36,9 +30,9 @@ html {
 
 body {
     font-family: var(--font-primary);
-    color: var(--color-dark);
+    color: var(--color-text);
     line-height: 1.6;
-    background-color: var(--color-background);
+    background-color: var(--color-background-light);
 }
 
 .container {
@@ -52,10 +46,10 @@ body {
 }
 
 .section-light {
-    background-color: var(--color-light);
+    background-color: var(--color-background-base);
 }
 .section-dark {
-    background-color: var(--hookers-green);
+    background-color: var(--color-container-border);
     color: var(--color-white);
 }
 .section-dark .section-title {
@@ -185,7 +179,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     text-decoration: none;
-    color: var(--hookers-green);
+    color: var(--color-container-border);
 }
 
 .main-nav {
@@ -201,7 +195,7 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--color-dark);
+    color: var(--color-text);
     font-weight: 600;
     font-size: 1rem;
     position: relative;
@@ -266,13 +260,13 @@ body {
 .dropdown-menu li a {
     display: block;
     padding: 10px 20px;
-    color: var(--color-dark);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 400;
 }
 
 .dropdown-menu li a:hover {
-    background-color: #f7f9f8;
+    background-color: var(--color-background-light);
     color: var(--color-primary);
 }
 
@@ -287,12 +281,12 @@ body {
 }
 
 .header-actions .btn-secondary {
-    border-color: var(--keppel);
-    color: var(--keppel);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
     padding: 8px 20px;
 }
 .header-actions .btn-secondary:hover {
-    background-color: var(--keppel);
+    background-color: var(--color-primary);
     color: var(--color-white);
 }
 
@@ -301,12 +295,12 @@ body {
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: var(--color-dark);
+    color: var(--color-text);
     cursor: pointer;
 }
 
 .header-booking-bar {
-    background-color: #f7f9f8;
+    background-color: var(--color-background-light);
     padding: 20px 0;
 }
 
@@ -325,12 +319,12 @@ body {
 .form-group label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--color-dark);
+    color: var(--color-text);
     margin-bottom: 8px;
 }
 .form-group label i {
     margin-right: 5px;
-    color: var(--mint);
+    color: var(--color-secondary);
 }
 
 .form-group select,
@@ -406,7 +400,7 @@ body {
 }
 .filter-btn {
     background: none;
-    border: 1px solid var(--color-light);
+    border: 1px solid var(--color-background-base);
     padding: 10px 20px;
     border-radius: 20px;
     margin: 0 5px;
@@ -448,7 +442,7 @@ body {
 .plan-card .price span {
     font-size: 1rem;
     font-weight: 400;
-    color: var(--color-dark);
+    color: var(--color-text);
 }
 .plan-card ul {
     list-style: none;
@@ -498,7 +492,7 @@ body {
 }
 .testimonio-card .author {
     font-weight: 600;
-    color: var(--color-dark);
+    color: var(--color-text);
 }
 .testimonio-card .stars {
     color: var(--color-primary);
@@ -538,8 +532,8 @@ body {
     padding: 15px;
     margin-bottom: 20px;
     border-radius: var(--border-radius);
-    border: 1px solid var(--hookers-green);
-    background-color: var(--color-dark);
+    border: 1px solid var(--color-container-border);
+    background-color: var(--color-text);
     color: var(--color-white);
     font-family: var(--font-primary);
 }
@@ -575,7 +569,7 @@ body {
 .map-placeholder {
     margin-top: 30px;
     height: 200px;
-    background-color: var(--color-dark);
+    background-color: var(--color-text);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -586,7 +580,7 @@ body {
    PIE DE PÁGINA
    ================================= */
 .main-footer {
-    background-color: var(--licorice);
+    background-color: var(--color-text);
     color: rgba(255, 255, 255, 0.8);
     padding: 50px 0 0;
 }
@@ -621,7 +615,7 @@ body {
 .footer-bottom {
     text-align: center;
     padding: 20px 0;
-    border-top: 1px solid var(--hookers-green);
+    border-top: 1px solid var(--color-container-border);
 }
 
 /* =================================
@@ -652,7 +646,7 @@ body {
 }
 
 .mission-card, .vision-card {
-    background-color: var(--color-background);
+    background-color: var(--color-background-light);
     padding: 35px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -662,7 +656,7 @@ body {
 .mission-card h3, .vision-card h3 {
     font-family: var(--font-secondary);
     margin-bottom: 15px;
-    color: var(--color-dark);
+    color: var(--color-text);
 }
 
 .inspiration-content .container {
@@ -746,7 +740,7 @@ body {
 .cta-section {
     padding: 60px 0;
     text-align: center;
-    background-color: var(--color-light);
+    background-color: var(--color-background-base);
 }
 
 .cta-section h2 {
@@ -772,7 +766,7 @@ body {
 }
 
 .filters-bar .filter-btn {
-    background-color: var(--color-background);
+    background-color: var(--color-background-light);
     border: 1px solid #ddd;
     padding: 10px 25px;
     border-radius: 50px;
@@ -782,15 +776,15 @@ body {
 }
 
 .filters-bar .filter-btn:hover {
-    background-color: var(--mint);
+    background-color: var(--color-secondary);
     color: var(--color-white);
-    border-color: var(--mint);
+    border-color: var(--color-secondary);
 }
 
 .filters-bar .filter-btn.active {
-    background-color: var(--keppel);
+    background-color: var(--color-primary);
     color: var(--color-white);
-    border-color: var(--keppel);
+    border-color: var(--color-primary);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
@@ -835,7 +829,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 50px;
     align-items: flex-start;
-    color: var(--color-dark); /* Ensure text is readable */
+    color: var(--color-text); /* Ensure text is readable */
 }
 
 .service-main-image {
@@ -863,7 +857,7 @@ body {
 }
 
 .key-points-section {
-    background-color: #f7f9f8;
+    background-color: var(--color-background-light);
     padding: 30px;
     border-radius: var(--border-radius);
     margin-bottom: 30px;
@@ -885,7 +879,52 @@ body {
 
 .key-points-section ul li strong {
     display: block;
-    color: var(--color-dark);
+    color: var(--color-text);
+}
+
+/* =================================
+   DYNAMIC ACTIVITY SUMMARY
+   ================================= */
+.dynamic-summary-container {
+    padding: 60px 0;
+    background-color: var(--color-background-light);
+    display: none; /* Hidden by default */
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.summary-card {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.summary-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+.summary-content h3 {
+    font-family: var(--font-secondary);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--color-text);
+}
+
+.summary-content p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: var(--color-text);
 }
 
 /* =================================

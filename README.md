@@ -79,3 +79,15 @@ Añadir una nueva página es un proceso sencillo:
     ```
 
 3.  **¡Listo!** Al abrir la nueva página en un navegador, el encabezado y el pie de página se cargarán automáticamente. Ya puedes empezar a añadir tu contenido específico dentro de la etiqueta `<main>`.
+
+## Paleta de Colores
+
+El proyecto utiliza una paleta de colores definida para mantener una identidad visual coherente. Los colores están definidos como variables CSS en `styles/main.css` y deben usarse en todo el sitio.
+
+| Color               | HEX        | Variable CSS        | Rol Principal                               |
+| ------------------- | ---------- | ------------------- | ------------------------------------------- |
+| Hooker's Green      | `#486b65`  | `--hookers-green`   | Fondos oscuros, texto principal.            |
+| Keppel              | `#59b4a3`  | `--keppel`          | Color primario para botones, enlaces y acentos. |
+| Mint                | `#57aa80`  | `--mint`            | Color secundario para acentos y hover.      |
+| Celadon             | `#adedcb`  | `--celadon`         | Fondos claros y secciones destacadas.       |
+| Licorice            | `#211916`  | `--licorice`        | Texto oscuro y pies de página.              |

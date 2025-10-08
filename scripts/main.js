@@ -1,15 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Cambiar el fondo de la navegación al hacer scroll
-    const header = document.querySelector('.main-header');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
     // Animación de elementos al aparecer en pantalla (Scroll Reveal)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -49,4 +39,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Lógica para el menú móvil (hamburguesa)
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+
+    if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('is-open');
+
+            const icon = menuToggle.querySelector('i');
+            if (mainNav.classList.contains('is-open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    }
 });

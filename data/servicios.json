@@ -6,7 +6,7 @@
       "featured": true,
       "title": "Alquiler de Yates de Lujo",
       "shortDescription": "Navega por el Caribe con estilo y confort en nuestras embarcaciones exclusivas.",
-      "image": "../assets/images/servicio-yate.jpg",
+      "image": "../assets/images/servicio-yate.png",
       "icon": "fas fa-ship",
       "color": "#486B65",
       "details": {
@@ -20,7 +20,7 @@
       "featured": true,
       "title": "Chef Exclusivo a Bordo",
       "shortDescription": "Alta cocina en tu yate o mansión. Menús personalizados para una experiencia gourmet.",
-      "image": "../assets/images/servicio-chef.jpg",
+      "image": "../assets/images/servicio-chef.png",
       "icon": "fas fa-utensils",
       "color": "#59B4A3",
       "details": {
@@ -47,7 +47,7 @@
       "featured": true,
       "title": "Venta de Embarcaciones de Lujo",
       "shortDescription": "Adquiere el yate, velero o catamarán de tus sueños con nuestro asesoramiento experto.",
-      "image": "../assets/images/servicio-venta-yate.jpg",
+      "image": "../assets/images/servicio-venta-yate.png",
       "icon": "fas fa-file-signature",
       "color": "#211916",
       "details": {
@@ -74,7 +74,7 @@
       "featured": true,
       "title": "Servicio de Escolta Privada",
       "shortDescription": "Disfruta con total tranquilidad. Protección discreta y profesional para tu bienestar.",
-      "image": "../assets/images/servicio-seguridad.jpg",
+      "image": "../assets/images/servicio-seguridad.png",
       "icon": "fas fa-user-shield",
       "color": "#57AA80",
       "details": {

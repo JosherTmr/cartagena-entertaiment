@@ -12,6 +12,36 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.text())
         .then(data => {
             headerPlaceholder.innerHTML = data;
+
+            // --- LÓGICA DEL HEADER INYECTADA ---
+            const header = document.querySelector('.main-header');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+
+            // 1. Lógica para el menú móvil
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', () => {
+                    mainNav.classList.toggle('is-open');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+            }
+
+            // 2. Lógica para el scroll del header
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', () => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 150) {
+                    // Scroll hacia abajo
+                    header.style.top = `-${header.offsetHeight}px`;
+                } else {
+                    // Scroll hacia arriba
+                    header.style.top = '0';
+                }
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            });
+            // --- FIN DE LA LÓGICA INYECTADA ---
         });
 
     // Cargar el pie de página

@@ -483,7 +483,7 @@ body {
     border-radius: 8px;
     font-family: var(--font-primary);
     font-size: 1rem;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.35); /* Fondo más opaco */
     color: var(--color-text);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -495,7 +495,7 @@ body {
 }
 .booking-bar .form-group select::placeholder,
 .booking-bar .form-group input::placeholder {
-    color: var(--color-white-semitransparent);
+    color: rgba(255, 255, 255, 0.75); /* Placeholder más visible */
 }
 
 .booking-bar .btn-primary {

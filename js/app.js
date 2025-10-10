@@ -63,9 +63,6 @@ const App = {
             case 'page-home':
                 this.initHomePage();
                 break;
-            case 'page-services':
-                this.initServicesPage();
-                break;
             case 'page-service-detail':
                 this.initServiceDetailPage();
                 break;

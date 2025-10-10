@@ -69,6 +69,9 @@ const App = {
             case 'page-service-detail':
                 this.initServiceDetailPage();
                 break;
+            case 'page-nuestros-servicios':
+                this.initNuestrosServiciosPage();
+                break;
         }
     },
     
@@ -88,34 +91,15 @@ const App = {
     },
 
     populateDropdowns() {
-        const destinationsMenu = document.getElementById('destinations-dropdown-menu');
         const servicesMenu = document.getElementById('services-dropdown-menu');
-
-        if (destinationsMenu) {
-            destinationsMenu.innerHTML = ''; 
-            this.data.destinations.forEach(destino => {
-                const titleLi = document.createElement('li');
-                titleLi.innerHTML = `<span style="font-weight: bold; color: var(--color-primary); padding: 10px 20px; display: block;">${destino.name}</span>`;
-                destinationsMenu.appendChild(titleLi);
-
-                const serviceIds = new Set(destino.seasonality.allYear);
-                this.data.services.forEach(service => {
-                    if (serviceIds.has(service.id)) {
-                        const li = document.createElement('li');
-                        const detailUrl = `/pages/servicio-detalle.html?id=${service.id}`;
-                        li.innerHTML = `<a href="${detailUrl}">${service.title}</a>`;
-                        destinationsMenu.appendChild(li);
-                    }
-                });
-            });
-        }
 
         if (servicesMenu) {
             const categories = [...new Set(this.data.services.map(s => s.category))];
-            servicesMenu.innerHTML = `<li><a href="/pages/servicios.html">Todos los Servicios</a></li>`;
+            servicesMenu.innerHTML = `<li><a href="/pages/nuestros-servicios.html">Todos los Servicios</a></li>`;
             categories.forEach(category => {
                 const li = document.createElement('li');
-                li.innerHTML = `<a href="/pages/servicios.html?category=${encodeURIComponent(category)}">${category}</a>`;
+                const categoryId = `category-${category.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
+                li.innerHTML = `<a href="/pages/nuestros-servicios.html#${categoryId}">${category}</a>`;
                 servicesMenu.appendChild(li);
             });
         }
@@ -131,45 +115,41 @@ const App = {
         this.renderContactSection();
     },
 
-    initServicesPage() {
-        const allServices = this.data.services;
-        const params = new URLSearchParams(window.location.search);
-        let currentCategory = params.get('category') || 'Todos';
+    initNuestrosServiciosPage() {
+        const container = document.getElementById('services-by-category');
+        if (!container) return;
 
-        const filtersBar = document.querySelector('.filters-bar');
-        
-        const filterAndRender = (category) => {
-            const servicesToRender = category === 'Todos' ? allServices : allServices.filter(s => s.category === category);
-            this.renderServiceCards(servicesToRender, '.services-grid');
-            
-            document.querySelectorAll('.filters-bar .filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent === category);
-            });
-        };
+        const servicesByCategory = this.data.services.reduce((acc, service) => {
+            const category = service.category;
+            if (!acc[category]) {
+                acc[category] = [];
+            }
+            acc[category].push(service);
+            return acc;
+        }, {});
 
-        if (filtersBar) {
-            const categories = ['Todos', ...new Set(allServices.map(s => s.category))];
-            filtersBar.innerHTML = '';
-            categories.forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'filter-btn';
-                button.textContent = category;
-                button.addEventListener('click', () => {
-                    currentCategory = category;
-                    filterAndRender(currentCategory);
-                    const url = new URL(window.location);
-                     if (category === 'Todos') {
-                        url.searchParams.delete('category');
-                    } else {
-                        url.searchParams.set('category', category);
-                    }
-                    history.pushState({}, '', url);
-                });
-                filtersBar.appendChild(button);
-            });
+        container.innerHTML = '';
+
+        for (const category in servicesByCategory) {
+            const categoryId = `category-${category.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
+            const sectionHtml = `
+                <div id="${categoryId}" class="category-section">
+                    <h2 class="section-title animate-on-scroll">${category}</h2>
+                    <div class="services-grid">
+                        <!-- Service cards for ${category} will be rendered here -->
+                    </div>
+                </div>
+            `;
+            container.innerHTML += sectionHtml;
+        }
+
+        for (const category in servicesByCategory) {
+            const categoryId = `category-${category.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
+            const gridSelector = `#${categoryId} .services-grid`;
+            this.renderServiceCards(servicesByCategory[category], gridSelector);
         }
         
-        filterAndRender(currentCategory);
+        this.observeNewAnimatedElements(container);
     },
     
     initServiceDetailPage() {

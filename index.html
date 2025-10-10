@@ -5,40 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vive el Caribe Colombiano | Tu Aventura Única</title>
     <meta name="description" content="Explora, descubre y viaja a los destinos más increíbles del Caribe Colombiano con nosotros. Planes personalizados y experiencias inolvidables.">
-
-    <!-- Google Fonts: Poppins y Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Hoja de Estilos Principal -->
     <link rel="stylesheet" href="styles/main.css">
-
 </head>
-<body>
+<body id="page-home">
+    <!-- El header se insertará aquí dinámicamente -->
     <main>
         <section id="inicio" class="hero-video">
-            <video playsinline autoplay muted loop poster="assets/images/hero-background.jpg" id="hero-video-bg">
-                </video>
-
+            <video playsinline autoplay muted loop poster="assets/images/servicio-yate.png" id="hero-video-bg"></video>
             <div class="hero-content">
                 <h1>Experiencias Únicas en el Caribe</h1>
                 <p>Descubre el lujo y la aventura a tu medida.</p>
-
                 <div class="booking-bar">
                     <form id="booking-form">
                         <div class="form-group">
                             <label for="destino-select"><i class="fas fa-map-marker-alt"></i> Destino</label>
-                            <select id="destino-select" name="destino">
-                                </select>
+                            <select id="destino-select" name="destino"></select>
                         </div>
                         <div class="form-group">
                             <label for="servicio-select"><i class="fas fa-concierge-bell"></i> Tipo de Servicio</label>
-                            <select id="servicio-select" name="servicio">
-                                </select>
+                            <select id="servicio-select" name="servicio"></select>
                         </div>
                         <div class="form-group">
                             <label for="fecha-input"><i class="fas fa-calendar-alt"></i> Fecha</label>
@@ -50,35 +39,39 @@
             </div>
         </section>
 
-        <section id="results-section" class="container section">
+        <!-- Sección de servicios/resultados, con el ID corregido -->
+        <section id="servicios" class="container section">
             <h2 id="results-title" class="section-title animate-on-scroll">Nuestros Servicios Exclusivos</h2>
             <div id="featured-services-grid" class="services-grid featured-grid">
-                </div>
+                <!-- Las tarjetas de servicio se generarán dinámicamente aquí -->
+            </div>
             <div class="section-footer animate-on-scroll">
                 <a href="pages/servicios.html" class="btn btn-primary">Ver todos los servicios</a>
             </div>
+        </section>
+        
+        <!-- El contenido de las siguientes secciones se generará dinámicamente con app.js -->
+        <section id="destinos" class="container section section-light">
+            <!-- Contenido de destinos populares se insertará aquí -->
+        </section>
+
+        <section id="nosotros" class="container section">
+            <!-- Contenido "Sobre Nosotros" se insertará aquí -->
+        </section>
+        
+        <section id="contacto" class="section section-dark">
+            <!-- El formulario y la información de contacto se insertarán aquí -->
         </section>
 
         <a href="https://wa.me/TUNUMERODEWHATSAPP" target="_blank" class="whatsapp-float">
             <i class="fab fa-whatsapp"></i>
         </a>
 
-        <section id="destinos" class="container section">
-            </section>
-
-        <section id="planes" class="section section-light">
-            </section>
-
-        <section id="nosotros" class="container section">
-            </section>
-
-        <section id="contacto" class="section section-dark">
-            </section>
-
     </main>
+    <!-- El footer se insertará aquí dinámicamente -->
 
-    <script src="js/loadComponents-root.js"></script>
-    <script src="js/portfolio-loader.js"></script>
-    <script src="js/main.js" defer></script>
+    <!-- ÚNICO SCRIPT REQUERIDO -->
+    <script src="js/app.js" defer></script>
 </body>
 </html>
+

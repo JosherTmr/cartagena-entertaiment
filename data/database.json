@@ -1,0 +1,256 @@
+{
+    "companyInfo": {
+      "name": "Cartagena Entertainment Rent and Pleasure",
+      "phone": "+57 [Número de contacto]",
+      "email": "contacto@cartagenaentertainment.com",
+      "whatsapp": "+57 [Número de WhatsApp]",
+      "address": "[Dirección de la oficina], Cartagena, Colombia",
+      "officeHours": {
+        "weekdays": "8:00 a.m. - 6:00 p.m.",
+        "saturdays": "9:00 a.m. - 1:00 p.m.",
+        "sundays_holidays": "Cerrado"
+      }
+    },
+    "services": [
+      {
+        "id": "alquiler-yates-lujo",
+        "category": "Navegación",
+        "featured": true,
+        "title": "Alquiler de Yates de Lujo",
+        "shortDescription": "Navega con estilo y confort en nuestras exclusivas embarcaciones por el Caribe.",
+        "fullDescription": "Disfruta de una experiencia exclusiva en nuestras embarcaciones de lujo, equipadas con todas las comodidades para navegar por las aguas cristalinas del Caribe. Perfecto para eventos privados, celebraciones o simplemente relajarte con estilo.",
+        "image": "assets/images/servicio-yate.png",
+        "icon": "fas fa-ship",
+        "tags": ["yate", "lujo", "eventos", "islas", "privado"],
+        "lifestyleFocus": "El mar es tuyo. Vívelo sin límites."
+      },
+      {
+        "id": "alquiler-veleros-catamaranes",
+        "category": "Navegación",
+        "featured": true,
+        "title": "Alquiler de Veleros y Catamaranes",
+        "shortDescription": "Vive la elegancia de navegar a vela en embarcaciones de alta gama.",
+        "fullDescription": "Vive la tranquilidad y la elegancia de navegar en veleros y catamaranes de alta gama, ideales para explorar las islas cercanas o disfrutar de un día inolvidable en el mar.",
+        "image": "assets/images/servicio-catamaran.jpg",
+        "icon": "fas fa-sailboat",
+        "tags": ["velero", "catamaran", "tranquilidad", "exploracion"],
+        "lifestyleFocus": "Conecta con el viento, el mar y la exclusividad."
+      },
+      {
+        "id": "powercats-botes-deportivos",
+        "category": "Navegación",
+        "featured": false,
+        "title": "Powercats y Botes Deportivos",
+        "shortDescription": "Velocidad y aventura en embarcaciones de última generación.",
+        "fullDescription": "Para los amantes de la velocidad y la aventura, ofrecemos botes deportivos y powercats de última generación, diseñados para combinar rendimiento y confort.",
+        "image": "assets/images/servicio-bote-deportivo.jpg",
+        "icon": "fas fa-jet-ski",
+        "tags": ["velocidad", "aventura", "adrenalina", "botes"],
+        "lifestyleFocus": "La adrenalina también puede ser un lujo."
+      },
+      {
+          "id": "romance-en-el-mar",
+          "category": "Experiencias Exclusivas",
+          "featured": false,
+          "title": "Cena Romántica en Yate",
+          "shortDescription": "Una velada inolvidable bajo las estrellas para celebrar el amor.",
+          "fullDescription": "Sorprende a tu pareja con una cena gourmet privada a bordo de un yate de lujo. Incluye chef exclusivo, decoración especial y un recorrido por la bahía de Cartagena al atardecer.",
+          "image": "assets/images/servicio-cena-romantica.jpg",
+          "icon": "fas fa-heart",
+          "tags": ["romance", "parejas", "cena", "amor y amistad"],
+          "lifestyleFocus": "Crea un momento que durará para siempre."
+      },
+      {
+        "id": "pesca-deportiva",
+        "category": "Experiencias Exclusivas",
+        "featured": false,
+        "title": "Pesca Deportiva de Altura",
+        "shortDescription": "Vive la emoción de la pesca en el Caribe con guías expertos.",
+        "fullDescription": "Experimenta la emoción de la pesca en las aguas del Caribe con nuestro servicio de pesca deportiva, que incluye equipos de alta calidad y guías expertos para garantizar una experiencia única.",
+        "image": "assets/images/servicio-pesca.jpg",
+        "icon": "fas fa-fish",
+        "tags": ["pesca", "aventura", "deporte", "alta mar"],
+        "lifestyleFocus": "Una captura legendaria te espera."
+      },
+      {
+        "id": "charters-panama",
+        "category": "Viajes Exclusivos",
+        "featured": false,
+        "title": "Charters a Panamá",
+        "shortDescription": "Explora nuevos horizontes con nuestros exclusivos charters a Panamá.",
+        "fullDescription": "Explora nuevos horizontes con nuestros exclusivos charters a Panamá, una experiencia de lujo que combina comodidad, aventura y paisajes espectaculares.",
+        "image": "assets/images/destino-panama.jpg",
+        "icon": "fas fa-route",
+        "tags": ["viaje", "panama", "lujo", "internacional"],
+        "lifestyleFocus": "Tu horizonte se expande donde tú decides."
+      },
+      {
+        "id": "alquiler-mansiones",
+        "category": "Alojamiento de Lujo",
+        "featured": true,
+        "title": "Alquiler de Mansiones de Lujo",
+        "shortDescription": "Hospédate en impresionantes mansiones con vistas paradisíacas.",
+        "fullDescription": "Hospédate en nuestras impresionantes mansiones, equipadas con instalaciones de primera clase, vistas paradisíacas y un ambiente privado para disfrutar de momentos inolvidables.",
+        "image": "assets/images/servicio-mansion.jpg",
+        "icon": "fas fa-house-chimney-window",
+        "tags": ["alojamiento", "mansiones", "privacidad", "lujo"],
+        "lifestyleFocus": "Tu palacio privado en el corazón del Caribe."
+      },
+      {
+        "id": "alquiler-autos-gama-alta",
+        "category": "Transporte de Lujo",
+        "featured": false,
+        "title": "Alquiler de Automóviles de Alta Gama",
+        "shortDescription": "Muévete con estilo y sofisticación en nuestra flota de automóviles de lujo.",
+        "fullDescription": "Muévete con estilo y sofisticación en nuestra flota de automóviles de lujo, ideales para cualquier ocasión especial o simplemente para disfrutar del confort en tu día a día.",
+        "image": "assets/images/servicio-auto.jpg",
+        "icon": "fas fa-car",
+        "tags": ["autos", "transporte", "lujo", "estilo"],
+        "lifestyleFocus": "El lujo te acompaña en cada trayecto."
+      },
+      {
+        "id": "eventos-privados",
+        "category": "Experiencias Exclusivas",
+        "featured": false,
+        "title": "Eventos Privados y Celebraciones",
+        "shortDescription": "Organizamos eventos personalizados en yates o mansiones de lujo.",
+        "fullDescription": "Organizamos eventos personalizados a bordo de nuestras embarcaciones o en nuestras propiedades de lujo, desde bodas y aniversarios hasta reuniones corporativas exclusivas.",
+        "image": "assets/images/servicio-evento.jpg",
+        "icon": "fas fa-champagne-glasses",
+        "tags": ["eventos", "bodas", "corporativo", "celebraciones"],
+        "lifestyleFocus": "Momentos que se convierten en leyendas."
+      },
+      {
+        "id": "tours-personalizados",
+        "category": "Experiencias Exclusivas",
+        "featured": false,
+        "title": "Tours Personalizados",
+        "shortDescription": "Diseñamos recorridos únicos por el Caribe adaptados a tus intereses.",
+        "fullDescription": "Diseñamos experiencias únicas que incluyen recorridos personalizados por las islas del Caribe, visitas culturales y actividades exclusivas adaptadas a tus intereses.",
+        "image": "assets/images/servicio-tour.jpg",
+        "icon": "fas fa-map-signs",
+        "tags": ["tours", "cultura", "aventura", "personalizado"],
+        "lifestyleFocus": "Tu curiosidad es el mapa. Nosotros somos la brújula."
+      },
+      {
+        "id": "servicio-concierge",
+        "category": "Servicios Premium",
+        "featured": false,
+        "title": "Servicios Concierge",
+        "shortDescription": "Atendemos todas tus necesidades para una experiencia impecable.",
+        "fullDescription": "Nuestro equipo de concierge está disponible para atender todas tus necesidades, desde reservas especiales hasta planificación de itinerarios, asegurando que tu experiencia sea impecable.",
+        "image": "assets/images/servicio-concierge.jpg",
+        "icon": "fas fa-concierge-bell",
+        "tags": ["concierge", "asistencia", "reservas", "premium"],
+        "lifestyleFocus": "Tus deseos, nuestra misión."
+      },
+      {
+        "id": "escolta-privada",
+        "category": "Seguridad y Lujo",
+        "featured": false,
+        "title": "Servicio de Escolta Privada",
+        "shortDescription": "Disfruta con total tranquilidad y protección discreta y profesional.",
+        "fullDescription": "Ofrecemos un Servicio de Escolta Privada diseñado para proteger tu bienestar mientras disfrutas de nuestras experiencias de alto nivel. Incluye personal altamente capacitado, discreción, cobertura completa y vehículos blindados opcionales.",
+        "image": "assets/images/servicio-seguridad.png",
+        "icon": "fas fa-user-shield",
+        "tags": ["seguridad", "proteccion", "privacidad", "escolta"],
+        "lifestyleFocus": "El lujo no solo se vive, también se protege."
+      },
+      {
+        "id": "venta-embarcaciones",
+        "category": "Venta",
+        "featured": false,
+        "title": "Venta de Embarcaciones de Lujo",
+        "shortDescription": "Adquiere el yate, velero o catamarán de tus sueños con nuestro asesoramiento.",
+        "fullDescription": "Te ofrecemos la oportunidad de adquirir tu propia embarcación. Nuestro servicio de Venta de Embarcaciones de Lujo está diseñado para satisfacer las expectativas más altas, con un catálogo exclusivo y asesoramiento personalizado.",
+        "image": "assets/images/servicio-venta-yate.png",
+        "icon": "fas fa-file-signature",
+        "tags": ["venta", "yates", "inversion", "propiedad"],
+        "lifestyleFocus": "El primer paso hacia la vida náutica que siempre soñaste."
+      },
+      {
+        "id": "chef-exclusivo",
+        "category": "Experiencias Exclusivas",
+        "featured": true,
+        "title": "Chef Exclusivo a Bordo",
+        "shortDescription": "Alta cocina en tu yate o mansión. Menús personalizados para una experiencia gourmet.",
+        "fullDescription": "Ofrecemos un Servicio de Chef Exclusivo diseñado para llevar la alta cocina directamente a tu experiencia, con menús personalizados, ingredientes de primera calidad y experiencias temáticas.",
+        "image": "assets/images/servicio-chef.png",
+        "icon": "fas fa-utensils",
+        "tags": ["gastronomia", "chef", "gourmet", "exclusivo"],
+        "lifestyleFocus": "El sabor del lujo, servido en tu mesa."
+      }
+    ],
+    "destinations": [
+      {
+        "id": "cartagena",
+        "name": "Cartagena de Indias",
+        "description": "El corazón vibrante del Caribe, donde la historia colonial se encuentra con el lujo moderno.",
+        "image": "assets/images/destino-cartagena.jpg",
+        "seasonality": {
+          "allYear": [
+            "alquiler-yates-lujo",
+            "alquiler-veleros-catamaranes",
+            "powercats-botes-deportivos",
+            "pesca-deportiva",
+            "alquiler-mansiones",
+            "alquiler-autos-gama-alta",
+            "eventos-privados",
+            "tours-personalizados",
+            "servicio-concierge",
+            "escolta-privada",
+            "venta-embarcaciones",
+            "chef-exclusivo"
+          ],
+          "specialSeasons": [
+            {
+              "id": "semana-santa",
+              "label": "Semana Santa",
+              "type": "dateRange",
+              "value": { "start": "2026-03-29", "end": "2026-04-05" },
+              "description": "Una semana de alta demanda, ideal para escapes de lujo y eventos exclusivos.",
+              "specificServices": ["eventos-privados", "chef-exclusivo"]
+            },
+            {
+              "id": "amor-y-amistad",
+              "label": "Amor y Amistad",
+              "type": "specificDate",
+              "value": "09-20",
+              "description": "Celebra el amor con experiencias románticas únicas.",
+              "specificServices": ["romance-en-el-mar"]
+            }
+          ]
+        }
+      },
+      {
+        "id": "islas-rosario-baru",
+        "name": "Islas del Rosario y Barú",
+        "description": "Un paraíso de aguas cristalinas, playas de arena blanca y arrecifes de coral.",
+        "image": "assets/images/destino-rosario.jpg",
+        "seasonality": {
+          "allYear": [
+            "alquiler-yates-lujo",
+            "alquiler-veleros-catamaranes",
+            "powercats-botes-deportivos",
+            "pesca-deportiva",
+            "eventos-privados",
+            "tours-personalizados",
+            "chef-exclusivo"
+          ],
+          "specialSeasons": []
+        }
+      },
+      {
+        "id": "panama-san-blas",
+        "name": "Panamá y San Blas",
+        "description": "Una aventura internacional hacia un archipiélago de ensueño con cultura Guna Yala.",
+        "image": "assets/images/destino-san-blas.jpg",
+        "seasonality": {
+          "allYear": [ "charters-panama" ],
+          "specialSeasons": []
+        }
+      }
+    ]
+  }
+  
+  

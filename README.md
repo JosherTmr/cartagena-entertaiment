@@ -17,7 +17,7 @@ El proyecto está organizado de la siguiente manera para separar las responsabil
 ├── pages/                # Páginas adicionales del sitio (blog, detalles de destino).
 │   ├── blog-post.html
 │   └── destino-detalle.html
-├── scripts/              # Scripts de JavaScript.
+├── js/                   # Scripts de JavaScript.
 │   ├── main.js
 │   ├── loadComponents-root.js  # Carga componentes para la página principal.
 │   └── loadComponents-pages.js # Carga componentes para las páginas anidadas.
@@ -32,8 +32,8 @@ Para evitar la duplicación de código, el encabezado (`header`) y el pie de pá
 
 ### ¿Cómo funciona?
 
--   **`scripts/loadComponents-root.js`**: Este script se utiliza exclusivamente en `index.html`. Carga el `header.html` y el `footer.html` utilizando rutas relativas (`./components/...`) adecuadas para la raíz del proyecto.
--   **`scripts/loadComponents-pages.js`**: Este script se utiliza en todas las páginas dentro del directorio `pages/`. Utiliza una ruta relativa diferente (`../components/...`) para acceder a los componentes desde una subcarpeta.
+-   **`js/loadComponents-root.js`**: Este script se utiliza exclusivamente en `index.html`. Carga el `header.html` y el `footer.html` utilizando rutas relativas (`./components/...`) adecuadas para la raíz del proyecto.
+-   **`js/loadComponents-pages.js`**: Este script se utiliza en todas las páginas dentro del directorio `pages/`. Utiliza una ruta relativa diferente (`../components/...`) para acceder a los componentes desde una subcarpeta.
 
 Este enfoque asegura que los componentes se carguen correctamente sin importar la profundidad de la página en la estructura de carpetas.
 
@@ -71,9 +71,9 @@ Añadir una nueva página es un proceso sencillo:
         </main>
 
         <!-- Script para cargar header y footer en páginas anidadas -->
-        <script src="../scripts/loadComponents-pages.js"></script>
+        <script src="../js/loadComponents-pages.js"></script>
         <!-- Script principal de la aplicación -->
-        <script src="../scripts/main.js" defer></script>
+        <script src="../js/main.js" defer></script>
     </body>
     </html>
     ```

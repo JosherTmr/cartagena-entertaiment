@@ -1,25 +1,35 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // --- LÓGICA EXISTENTE PARA CARGAR HEADER Y FOOTER ---
-    const headerPlaceholder = document.createElement('div');
-    headerPlaceholder.setAttribute('id', 'header-placeholder');
-    document.body.prepend(headerPlaceholder);
 
-    const footerPlaceholder = document.createElement('div');
-    footerPlaceholder.setAttribute('id', 'footer-placeholder');
-    document.body.append(footerPlaceholder);
+    // --- PASO 1: INICIALIZAR LOS SISTEMAS GLOBALES ---
+    initializeAnimationObserver();
+    observeNewAnimatedElements(document.body);
 
-    // Cargar el encabezado
-    fetch("./components/header.html")
-        .then(response => response.text())
-        .then(data => {
-            headerPlaceholder.innerHTML = data;
-            // ... (toda la lógica existente del header, menú móvil, scroll, etc. va aquí)
+    // --- PASO 2: CARGAR COMPONENTES HTML (HEADER Y FOOTER) ---
+    const headerPlaceholder = document.getElementById('header-placeholder') || document.createElement('div');
+    if (!document.getElementById('header-placeholder')) {
+        headerPlaceholder.setAttribute('id', 'header-placeholder');
+        document.body.prepend(headerPlaceholder);
+    }
 
-            // --- INICIO DE LÓGICA INYECTADA ---
-            const header = document.querySelector('.main-header');
+    const footerPlaceholder = document.getElementById('footer-placeholder') || document.createElement('div');
+    if (!document.getElementById('footer-placeholder')) {
+        footerPlaceholder.setAttribute('id', 'footer-placeholder');
+        document.body.append(footerPlaceholder);
+    }
+
+    const fetchHeader = fetch("./components/header.html").then(res => res.text());
+    const fetchFooter = fetch("./components/footer.html").then(res => res.text());
+
+    Promise.all([fetchHeader, fetchFooter])
+        .then(([headerData, footerData]) => {
+            headerPlaceholder.innerHTML = headerData;
+            footerPlaceholder.innerHTML = footerData;
+
+            // --- PASO 3: EJECUTAR LA LÓGICA DE LA PÁGINA ESPECÍFICA (INDEX) ---
+
+            // Lógica del menú desplegable y otros elementos del header
             const menuToggle = document.querySelector('.menu-toggle');
             const mainNav = document.querySelector('.main-nav');
-
             if (menuToggle && mainNav) {
                 menuToggle.addEventListener('click', () => {
                     mainNav.classList.toggle('is-open');
@@ -29,42 +39,48 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             }
 
-            let lastScrollTop = 0;
-            window.addEventListener('scroll', () => {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                if (scrollTop > lastScrollTop && scrollTop > 150) {
-                    header.style.top = `-${header.offsetHeight}px`;
-                } else {
-                    header.style.top = '0';
-                }
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-            });
-            // ... (resto de la lógica inyectada existente)
-            // --- FIN DE LÓGICA INYECTADA ---
-        });
+            // Lógica del dropdown de actividades
+            const destinationsDropdownMenu = document.getElementById('destinations-dropdown-menu');
+            if (destinationsDropdownMenu) {
+                fetch('./data/destinos.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        data.destinos.forEach(destino => {
+                            const titleLi = document.createElement('li');
+                            titleLi.innerHTML = `<a href="/pages/destino-detalle.html?id=${destino.id}" style="font-weight: bold; color: var(--color-primary);">${destino.nombre}</a>`;
+                            destinationsDropdownMenu.appendChild(titleLi);
+                            destino.actividades.forEach(actividad => {
+                                const li = document.createElement('li');
+                                li.innerHTML = `<a href="#">${actividad.titulo}</a>`;
+                                destinationsDropdownMenu.appendChild(li);
+                            });
+                        });
+                    });
+            }
 
-    // Cargar el pie de página
-    fetch("./components/footer.html")
-        .then(response => response.text())
-        .then(data => {
-            footerPlaceholder.innerHTML = data;
-        });
+            // Lógica específica del index
+            if (document.querySelector('#featured-services-grid')) {
+                initIndexPage();
+            }
+            if (document.querySelector('#booking-form')) {
+                initBookingForm();
+            }
+        })
+        .catch(error => console.error("Error al cargar componentes en root:", error));
 
-    // --- NUEVA LÓGICA PARA LA BARRA DE BÚSQUEDA DEL HOME ---
+    // --- LÓGICA PARA LA BARRA DE BÚSQUEDA (se mantiene separada por su complejidad) ---
     async function initBookingForm() {
         const destinoSelect = document.getElementById('destino-select');
         const servicioSelect = document.getElementById('servicio-select');
         const bookingForm = document.getElementById('booking-form');
 
-        if (!bookingForm) return; // Si no estamos en el index, no hacer nada
+        if (!bookingForm) return;
 
-        // 1. Cargar datos de los JSON
         const [destinosData, serviciosData] = await Promise.all([
             fetch('data/destinos.json').then(res => res.json()),
             fetch('data/servicios.json').then(res => res.json())
         ]);
 
-        // 2. Poblar dropdown de Destinos
         destinoSelect.innerHTML = '<option value="todos">Todos los Destinos</option>';
         destinosData.destinos.forEach(destino => {
             const option = document.createElement('option');
@@ -73,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function() {
             destinoSelect.appendChild(option);
         });
 
-        // 3. Poblar dropdown de Servicios
         servicioSelect.innerHTML = '<option value="todos">Todos los Servicios</option>';
         const categorias = [...new Set(serviciosData.services.map(s => s.category))];
         categorias.forEach(categoria => {
@@ -83,39 +98,25 @@ document.addEventListener("DOMContentLoaded", function() {
             servicioSelect.appendChild(option);
         });
 
-        // 4. Añadir Event Listener al formulario
         bookingForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Evitar que la página se recargue
-
+            e.preventDefault();
             const selectedCategory = servicioSelect.value;
+            const selectedDestinoId = destinoSelect.value;
             const allServices = serviciosData.services;
 
-            const filteredServices = selectedCategory === 'todos'
-                ? allServices.filter(s => s.featured) // Si es "todos", mostrar destacados
-                : allServices.filter(s => s.category === selectedCategory);
+            let filteredServices = selectedCategory === 'todos' ? allServices : allServices.filter(s => s.category === selectedCategory);
 
-            // 5. Renderizar los resultados
-            const resultsContainer = document.getElementById('featured-services-grid');
-            const resultsTitle = document.getElementById('results-title');
-
-            // La función renderServiceCards viene de 'portfolio-loader.js'
-            // Asegúrate de que ese script esté cargado en index.html
-            if (typeof renderServiceCards === 'function') {
-                renderServiceCards(filteredServices, '#featured-services-grid');
-            } else {
-                console.error('La función renderServiceCards no está definida. Asegúrate de que portfolio-loader.js se cargue antes.');
+            if (selectedDestinoId !== 'todos') {
+                const destino = destinosData.destinos.find(d => d.id === selectedDestinoId);
+                if (destino) {
+                    const actividadIds = destino.actividades.map(a => a.id);
+                    filteredServices = filteredServices.filter(service => actividadIds.includes(service.id));
+                }
             }
 
-            // Cambiar el título de la sección
-            resultsTitle.textContent = selectedCategory === 'todos'
-                ? 'Nuestros Servicios Exclusivos'
-                : `Resultados para "${selectedCategory}"`;
-
-            // Scroll suave hacia la sección de resultados
+            renderServiceCards(filteredServices, '#featured-services-grid');
+            document.getElementById('results-title').textContent = 'Resultados de tu búsqueda';
             document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
         });
     }
-
-    // Inicializar la barra de búsqueda
-    initBookingForm();
 });

@@ -131,6 +131,9 @@ body {
     box-shadow: var(--box-shadow);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 380px; /* GARANTIZA QUE LA TARJETA TENGA ALTURA */
+    display: flex; /* ASEGURA QUE EL CONTENIDO SE EXPANDA */
+    flex-direction: column;
 }
 .card:hover {
     transform: translateY(-10px);
@@ -143,6 +146,9 @@ body {
 }
 .card-content {
     padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* PERMITE QUE EL CONTENIDO LLENE LA TARJETA */
 }
 .card-content h3 {
     font-family: var(--font-secondary);
@@ -754,7 +760,7 @@ body {
    PÁGINA DE SERVICIOS
    ================================= */
 .hero-servicios {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/images/hero-servicios.jpg') no-repeat center center/cover;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/images/destino-cartagena.jpg') no-repeat center center/cover;
 }
 
 .filters-bar {

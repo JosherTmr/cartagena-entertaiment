@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Visual de Contenidos - Cartagena Entertainment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #f1f5f9; /* slate-100 */
+            --brand-services: #0891b2; /* cyan-600 */
+            --brand-destinations: #059669; /* emerald-600 */
+            --brand-company: #475569; /* slate-600 */
+            --brand-seasonality: #7c3aed; /* violet-600 */
+        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-main); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
+        .draggable-item { cursor: grab; }
+        .dragging { opacity: 0.5; transform: scale(1.02); }
+        .drag-over { box-shadow: 0 0 0 2px var(--brand-services); }
+        
+        .btn { @apply px-4 py-2 font-semibold text-white rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm; }
+        .btn-sm { @apply px-2 py-1 text-xs !important; }
+        .btn-primary { @apply bg-sky-700 hover:bg-sky-800; }
+        .btn-danger { @apply bg-red-600 hover:bg-red-700; }
+        .btn-secondary { @apply bg-slate-600 hover:bg-slate-700; }
+        .card { @apply bg-white rounded-lg shadow-sm border border-slate-200; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-800">Editor de Contenidos</h1>
+            <p class="text-base text-slate-600 mt-2">Gestiona visualmente el archivo <code class="text-sm bg-slate-200 text-slate-700 px-2 py-1 rounded">database.json</code> de tu sitio web.</p>
+        </header>
+
+        <!-- Zona de Carga de Archivo -->
+        <div id="upload-zone" class="card p-6 text-center mb-8">
+            <h2 class="text-xl font-semibold mb-4">Comienza cargando tu archivo `database.json`</h2>
+            <div class="border-2 border-dashed border-slate-300 rounded-lg p-8" id="drop-area">
+                <i class="fas fa-file-import text-4xl text-slate-400 mb-4"></i>
+                <p class="mb-4 text-slate-600">Arrastra y suelta tu archivo aquí, o haz clic para seleccionarlo.</p>
+                <input type="file" id="file-input" class="hidden" accept=".json">
+                <button id="upload-button" class="btn btn-primary">
+                    <i class="fas fa-folder-open mr-2"></i>Seleccionar Archivo
+                </button>
+            </div>
+            <div id="file-feedback" class="mt-4 font-semibold"></div>
+        </div>
+
+        <!-- Editor Principal -->
+        <main id="editor-main" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                
+                <!-- Navegación Lateral -->
+                <aside class="md:col-span-3">
+                    <div class="sticky top-8 card p-4">
+                        <h3 class="text-base font-bold mb-3 uppercase tracking-wider text-slate-500">Secciones</h3>
+                        <ul id="section-nav" class="space-y-1"></ul>
+                    </div>
+                </aside>
+
+                <!-- Área de Edición -->
+                <div id="editor-area" class="md:col-span-9">
+                    <!-- Contenido dinámico del editor -->
+                </div>
+            </div>
+
+             <!-- Vista Previa y Descarga -->
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold mb-4 text-center">Guarda y Descarga tus Cambios</h2>
+                <div class="card p-6">
+                     <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Vista Previa del JSON</h3>
+                        <div class="flex items-center gap-4">
+                             <button id="undo" class="btn btn-secondary" title="Deshacer (Ctrl+Z)" disabled><i class="fas fa-undo"></i></button>
+                             <button id="redo" class="btn btn-secondary" title="Rehacer (Ctrl+Y)" disabled><i class="fas fa-redo"></i></button>
+                            <button id="download-button" class="btn btn-primary">
+                                <i class="fas fa-download mr-2"></i>Descargar database.json
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="json-preview" class="w-full h-96 p-4 font-mono text-sm bg-slate-900 text-slate-100 border border-slate-700 rounded-md" readonly></textarea>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const App = {
+            state: { database: null, activeSection: null, draggedIndex: null, undoStack: [], redoStack: [] },
+            init() { this.cacheDOM(); this.bindEvents(); },
+            cacheDOM() {
+                this.dom = {
+                    uploadZone: document.getElementById('upload-zone'), dropArea: document.getElementById('drop-area'), fileInput: document.getElementById('file-input'),
+                    uploadButton: document.getElementById('upload-button'), fileFeedback: document.getElementById('file-feedback'), editorMain: document.getElementById('editor-main'),
+                    sectionNav: document.getElementById('section-nav'), editorArea: document.getElementById('editor-area'), jsonPreview: document.getElementById('json-preview'),
+                    downloadButton: document.getElementById('download-button'), undo: document.getElementById('undo'), redo: document.getElementById('redo')
+                };
+            },
+            bindEvents() {
+                this.dom.uploadButton.addEventListener('click', () => this.dom.fileInput.click());
+                this.dom.fileInput.addEventListener('change', this.handleFileUpload.bind(this));
+                this.dom.dropArea.addEventListener('dragover', e => { e.preventDefault(); e.currentTarget.classList.add('bg-sky-100', 'border-sky-500'); });
+                this.dom.dropArea.addEventListener('dragleave', e => e.currentTarget.classList.remove('bg-sky-100', 'border-sky-500'));
+                this.dom.dropArea.addEventListener('drop', this.handleFileDrop.bind(this));
+                this.dom.sectionNav.addEventListener('click', this.handleNavClick.bind(this));
+                this.dom.editorArea.addEventListener('input', this.handleInputChange.bind(this));
+                this.dom.editorArea.addEventListener('change', this.handleInputChange.bind(this));
+                this.dom.editorArea.addEventListener('click', this.handleButtonClick.bind(this));
+                this.dom.downloadButton.addEventListener('click', this.downloadJSON.bind(this));
+                this.dom.editorArea.addEventListener('dragstart', this.handleDragStart.bind(this));
+                this.dom.editorArea.addEventListener('dragover', this.handleDragOver.bind(this));
+                this.dom.editorArea.addEventListener('dragleave', this.handleDragLeave.bind(this));
+                this.dom.editorArea.addEventListener('drop', this.handleDrop.bind(this));
+                this.dom.undo.addEventListener('click', this.undo.bind(this));
+                this.dom.redo.addEventListener('click', this.redo.bind(this));
+                document.addEventListener('keydown', e => {
+                    if (e.ctrlKey && e.key === 'z') { e.preventDefault(); this.undo(); }
+                    if (e.ctrlKey && e.key === 'y') { e.preventDefault(); this.redo(); }
+                });
+            },
+            handleFileUpload(e) { const file = e.target.files[0]; if (file) this.processFile(file); },
+            handleFileDrop(e) { e.preventDefault(); e.currentTarget.classList.remove('bg-sky-100', 'border-sky-500'); const file = e.dataTransfer.files[0]; if (file) this.processFile(file); },
+            processFile(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result); this.state.database = data;
+                        this.dom.fileFeedback.textContent = `Archivo "${file.name}" cargado con éxito.`;
+                        this.dom.fileFeedback.className = 'mt-4 font-semibold text-green-600';
+                        this.dom.editorMain.classList.remove('hidden'); this.dom.uploadZone.style.display = 'none';
+                        this.state.activeSection = Object.keys(data)[0] || null;
+                        this.pushStateToUndoStack(true); this.render();
+                    } catch (error) {
+                        this.dom.fileFeedback.textContent = 'Error: El archivo no es un JSON válido.';
+                        this.dom.fileFeedback.className = 'mt-4 font-semibold text-red-600';
+                    }
+                };
+                reader.readAsText(file);
+            },
+            render() {
+                if (!this.state.database) return;
+                this.renderNav();
+                this.renderEditor();
+                this.renderJsonPreview();
+                this.updateUndoRedoButtons();
+            },
+            renderNav() {
+                const sections = Object.keys(this.state.database);
+                this.dom.sectionNav.innerHTML = sections.map(key => {
+                    let colorClass = 'text-slate-700'; let icon = 'fa-folder';
+                    if (key === 'services') { colorClass = 'text-cyan-700'; icon = 'fa-concierge-bell'; }
+                    if (key === 'destinations') { colorClass = 'text-emerald-700'; icon = 'fa-map-location-dot'; }
+                    if (key === 'companyInfo') { colorClass = 'text-slate-600'; icon = 'fa-building'; }
+                    return `<li><a href="#" data-section="${key}" class="${this.state.activeSection === key ? 'bg-slate-200' : 'bg-white hover:bg-slate-100'} block p-3 rounded-md font-semibold transition text-sm ${colorClass}">
+                            <i class="fas ${icon} fa-fw mr-2 opacity-75"></i>${this.formatKey(key)}</a></li>`;
+                }).join('');
+            },
+            renderEditor() {
+                switch (this.state.activeSection) {
+                    case 'companyInfo': this.renderCompanyInfoEditor(); break;
+                    case 'services': this.renderArrayEditor('services', 'Servicio'); break;
+                    case 'destinations': this.renderArrayEditor('destinations', 'Destino'); break;
+                }
+            },
+            renderCompanyInfoEditor() {
+                const data = this.state.database.companyInfo; let fields = ''; let subFields = '';
+                for (const key in data) {
+                    if (typeof data[key] === 'object' && data[key] !== null) {
+                        subFields += `<h3 class="text-lg font-semibold mt-6 mb-2 text-slate-600 col-span-2">${this.formatKey(key)}</h3>`;
+                        for (const subKey in data[key]) { subFields += this.renderInputField(subKey, data[key][subKey], `companyInfo.${key}.${subKey}`); }
+                    } else { fields += this.renderInputField(key, data[key], `companyInfo.${key}`); }
+                }
+                this.dom.editorArea.innerHTML = `
+                    <div class="bg-white rounded-lg p-3 border border-slate-200 mb-6 shadow-sm">
+                        <p class="text-sm text-slate-500 font-semibold"><i class="fas fa-home text-slate-400"></i><span class="mx-2 text-slate-400">/</span><span class="font-bold">${this.formatKey('companyInfo')}</span></p>
+                    </div>
+                    <div class="card">
+                        <div class="p-4 bg-slate-600 text-white rounded-t-lg">
+                            <h3 class="text-xl font-bold">Información de la Empresa</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">${fields}${subFields}</div>
+                        </div>
+                    </div>`;
+            },
+            renderArrayEditor(key, singular) {
+                const items = this.state.database[key];
+                const itemsHtml = items.map((item, index) => {
+                    let fields = '';
+                    for (const prop in item) {
+                        fields += (prop === 'seasonality') ? this.renderSeasonalityEditor(`${key}.${index}.seasonality`, item[prop]) : this.renderInputField(prop, item[prop], `${key}.${index}.${prop}`);
+                    }
+                    const headerBg = key === 'services' ? 'bg-cyan-600' : 'bg-emerald-600';
+                    return `<div class="card mb-8 draggable-item" draggable="true" data-index="${index}">
+                        <div class="p-4 ${headerBg} text-white rounded-t-lg flex justify-between items-center">
+                            <h3 class="text-xl font-bold">${item.title || item.name || `${singular} ${index + 1}`}</h3>
+                            <div class="flex items-center gap-2">
+                                <button class="bg-white/20 hover:bg-white/30 text-white btn p-2 h-9 w-9" title="Reorganizar"><i class="fas fa-grip-vertical pointer-events-none"></i></button>
+                                <button class="bg-red-500 hover:bg-red-600 text-white btn p-2 h-9 w-9" data-action="delete" data-path="${key}.${index}" title="Eliminar"><i class="fas fa-trash-alt pointer-events-none"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">${fields}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                this.dom.editorArea.innerHTML = `
+                    <div class="bg-white rounded-lg p-3 border border-slate-200 mb-6 shadow-sm flex justify-between items-center">
+                        <p class="text-sm text-slate-500 font-semibold">
+                            <i class="fas fa-home text-slate-400"></i><span class="mx-2 text-slate-400">/</span><span class="font-bold">${this.formatKey(key)}</span>
+                        </p>
+                        <button class="btn btn-primary btn-sm" data-action="add" data-key="${key}">
+                            <i class="fas fa-plus mr-2"></i>Añadir Nuevo ${singular}
+                        </button>
+                    </div>
+                    <div>${itemsHtml}</div>`;
+            },
+            renderSeasonalityEditor(basePath, data) {
+                 const allYearServices = data.allYear.join(', ');
+                 const specialSeasonsHtml = data.specialSeasons.map((season, index) => `
+                    <div class="p-4 border rounded-md mt-2 bg-white shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                           <h4 class="font-bold text-violet-800">${season.label || 'Temporada Especial'}</h4>
+                           <button class="btn btn-danger btn-sm" data-action="delete-season" data-path="${basePath}.specialSeasons.${index}"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                            ${this.renderInputField('id', season.id, `${basePath}.specialSeasons.${index}.id`)}
+                            ${this.renderInputField('label', season.label, `${basePath}.specialSeasons.${index}.label`)}
+                            <div class="sm:col-span-2">${this.renderInputField('description', season.description, `${basePath}.specialSeasons.${index}.description`)}</div>
+                            ${this.renderInputField('type', season.type, `${basePath}.specialSeasons.${index}.type`, ['specificDate', 'dateRange', 'weekNumber'])}
+                            <div data-value-wrapper-path="${basePath}.specialSeasons.${index}" class="sm:col-span-2">
+                                ${this.renderSeasonValueFields(season.type, season.value, `${basePath}.specialSeasons.${index}.value`)}
+                            </div>
+                            <div class="sm:col-span-2">${this.renderInputField('specificServices', season.specificServices, `${basePath}.specialSeasons.${index}.specificServices`)}</div>
+                        </div>
+                    </div>`).join('');
+
+                return `<div class="sm:col-span-2 p-4 border-2 border-violet-200 rounded-lg bg-violet-50 mt-4">
+                        <div class="flex items-center mb-4">
+                            <h3 class="text-xl font-bold text-violet-800 mr-4">Seasonality</h3>
+                            <button class="btn btn-secondary btn-sm" data-action="add-season" data-path="${basePath}.specialSeasons" style="background-color: var(--brand-seasonality)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 gap-5">
+                            ${this.renderInputField('allYear', allYearServices, `${basePath}.allYear`, null, 'serv-id-1, serv-id-2, ...')}
+                            <div id="special-seasons-container" class="space-y-4">${specialSeasonsHtml}</div>
+                        </div>
+                    </div>`;
+            },
+            renderSeasonValueFields(type, value, path) {
+                if (type === 'dateRange') {
+                    return `<div class="grid grid-cols-2 gap-4">
+                                ${this.renderInputField('start', value.start || '', `${path}.start`)}
+                                ${this.renderInputField('end', value.end || '', `${path}.end`)}
+                            </div>`;
+                }
+                return this.renderInputField('value', value || '', path);
+            },
+            renderInputField(key, value, path, options = null, placeholder = '') {
+                const label = this.formatKey(key);
+                const isFullWidth = ['description', 'fullDescription', 'shortDescription', 'lifestyleFocus', 'tags', 'allYear', 'specificServices', 'value'].includes(key);
+                let inputElement;
+                const commonClasses = "block w-full text-slate-900 rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 transition";
+
+                if (options) {
+                    inputElement = `<select class="${commonClasses}" data-path="${path}">${options.map(o => `<option value="${o}" ${o === value ? 'selected' : ''}>${this.formatKey(o)}</option>`).join('')}</select>`;
+                } else if (typeof value === 'boolean') {
+                    inputElement = `<select class="${commonClasses}" data-path="${path}"><option value="true" ${value ? 'selected' : ''}>Sí</option><option value="false" ${!value ? 'selected' : ''}>No</option></select>`;
+                } else if (Array.isArray(value)) {
+                    inputElement = `<textarea class="${commonClasses} min-h-[80px]" data-path="${path}" placeholder="${placeholder}">${value.join(', ')}</textarea>`;
+                } else if (key.includes('Description') || key === 'lifestyleFocus') {
+                    inputElement = `<textarea class="${commonClasses} min-h-[120px]" data-path="${path}" placeholder="${placeholder}">${value}</textarea>`;
+                } else {
+                    inputElement = `<input type="text" value="${value}" class="${commonClasses}" data-path="${path}" placeholder="${placeholder}">`;
+                }
+
+                return `<div class="${isFullWidth ? 'sm:col-span-2' : ''}">
+                        <label class="block text-sm font-medium leading-6 text-slate-900">${label}</label>
+                        <div class="mt-2">
+                            ${inputElement}
+                            ${Array.isArray(value) ? '<p class="mt-2 text-xs text-slate-500">Valores separados por comas.</p>' : ''}
+                        </div>
+                    </div>`;
+            },
+            renderJsonPreview() { this.dom.jsonPreview.value = JSON.stringify(this.state.database, null, 2); },
+            handleNavClick(e) { e.preventDefault(); const section = e.target.closest('a')?.dataset.section; if (section) { this.state.activeSection = section; this.render(); } },
+            handleInputChange(e) {
+                const path = e.target.dataset.path; if (!path) return;
+                const previousValue = this.getValueFromPath(path); let value = e.target.value;
+                if (typeof previousValue === 'boolean') value = value === 'true';
+                if (Array.isArray(previousValue)) value = value.split(',').map(s => s.trim()).filter(Boolean);
+
+                if (JSON.stringify(previousValue) !== JSON.stringify(value)) {
+                    if (e.type === 'change' || e.target.tagName === 'TEXTAREA') { this.pushStateToUndoStack(); }
+                    this.setValueFromPath(path, value);
+                    
+                    if (path.includes('specialSeasons') && path.endsWith('.type')) {
+                        const seasonPath = path.substring(0, path.lastIndexOf('.'));
+                        const season = this.getValueFromPath(seasonPath);
+                        if(value === 'dateRange' && typeof season.value !== 'object') {
+                            season.value = { start: 'YYYY-MM-DD', end: 'YYYY-MM-DD' };
+                        } else if (value === 'specificDate' && typeof season.value === 'object') {
+                            season.value = 'YYYY-MM-DD';
+                        } else if (value === 'weekNumber' && typeof season.value === 'object') {
+                            season.value = 'W##';
+                        }
+                        const wrapper = document.querySelector(`[data-value-wrapper-path="${seasonPath}"]`);
+                        if (wrapper) wrapper.innerHTML = this.renderSeasonValueFields(value, season.value, `${seasonPath}.value`);
+                    }
+                    this.renderJsonPreview();
+                }
+            },
+            handleButtonClick(e) {
+                const button = e.target.closest('button'); const action = button?.dataset.action; if (!action) return; e.preventDefault(); e.stopPropagation();
+                const key = button.dataset.key; const path = button.dataset.path;
+                if (action === 'add') { this.pushStateToUndoStack(); this.state.database[key].push(key === 'services' ? this.getServiceTemplate() : this.getDestinationTemplate()); this.render(); }
+                else if (action === 'delete') { const [arrKey, index] = path.split('.'); if (confirm(`¿Estás seguro de que quieres eliminar este elemento?`)) { this.pushStateToUndoStack(); this.state.database[arrKey].splice(index, 1); this.render(); } }
+                else if (action === 'add-season') { this.pushStateToUndoStack(); this.getValueFromPath(path).push({ id: "temporada-" + Date.now(), label: "Nueva Temporada", type: "dateRange", value: { start: "YYYY-MM-DD", end: "YYYY-MM-DD" }, description: "", specificServices: [] }); this.render(); }
+                else if (action === 'delete-season') { if (confirm(`¿Estás seguro de que quieres eliminar esta temporada?`)) { this.pushStateToUndoStack(); const parts = path.split('.'); const index = parts.pop(); this.getValueFromPath(parts.join('.')).splice(index, 1); this.render(); } }
+            },
+            handleDragStart(e) { const item = e.target.closest('.draggable-item'); if (!item) return; this.state.draggedIndex = parseInt(item.dataset.index, 10); e.dataTransfer.effectAllowed = 'move'; setTimeout(() => item.classList.add('dragging'), 0); },
+            handleDragOver(e) { e.preventDefault(); const target = e.target.closest('.draggable-item'); if (target && parseInt(target.dataset.index, 10) !== this.state.draggedIndex) { document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); target.classList.add('drag-over'); } },
+            handleDragLeave(e) { const target = e.target.closest('.draggable-item'); if (target) target.classList.remove('drag-over'); },
+            handleDrop(e) {
+                e.preventDefault(); const targetItem = e.target.closest('.draggable-item'); document.querySelectorAll('.drag-over, .dragging').forEach(el => el.classList.remove('drag-over', 'dragging'));
+                if (!targetItem) return; const dropIndex = parseInt(targetItem.dataset.index, 10); const draggedIndex = this.state.draggedIndex; if (draggedIndex === dropIndex) return;
+                this.pushStateToUndoStack();
+                const list = this.state.database[this.state.activeSection];
+                const draggedItem = list.splice(draggedIndex, 1)[0]; list.splice(dropIndex, 0, draggedItem);
+                this.state.draggedIndex = null; this.render();
+            },
+            pushStateToUndoStack(initial = false) { this.state.undoStack.push(JSON.stringify(this.state.database)); if (this.state.undoStack.length > 30) this.state.undoStack.shift(); if (!initial) this.state.redoStack = []; this.updateUndoRedoButtons(); },
+            undo() { if (this.state.undoStack.length <= 1) return; this.state.redoStack.push(this.state.undoStack.pop()); this.state.database = JSON.parse(this.state.undoStack[this.state.undoStack.length - 1]); this.render(); },
+            redo() { if (!this.state.redoStack.length) return; const nextState = this.state.redoStack.pop(); this.state.undoStack.push(nextState); this.state.database = JSON.parse(nextState); this.render(); },
+            updateUndoRedoButtons() { this.dom.undo.disabled = this.state.undoStack.length <= 1; this.dom.redo.disabled = this.state.redoStack.length === 0; },
+            formatKey(key) { return key.replace(/([A-Z])/g, ' $1').replace(/([a-z])(\d)/g, '$1 $2').replace(/^./, str => str.toUpperCase()); },
+            getValueFromPath(path) { return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, this.state.database); },
+            setValueFromPath(path, value) { const keys = path.split('.'); const lastKey = keys.pop(); const target = this.getValueFromPath(keys.join('.')); if (target) target[lastKey] = value; },
+            downloadJSON() { const jsonString = JSON.stringify(this.state.database, null, 2); const blob = new Blob([jsonString], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'database.json'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href); },
+            getServiceTemplate() { return { id: "nuevo-servicio-" + Date.now(), category: "Categoría", featured: false, title: "Nuevo Servicio", shortDescription: "", fullDescription: "", image: "assets/images/placeholder.jpg", icon: "fas fa-star", tags: [], lifestyleFocus: "" }; },
+            getDestinationTemplate() { return { id: "nuevo-destino-" + Date.now(), name: "Nuevo Destino", description: "", image: "assets/images/placeholder.jpg", seasonality: { allYear: [], specialSeasons: [] } }; }
+        };
+        App.init();
+    </script>
+</body>
+</html>
+

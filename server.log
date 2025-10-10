@@ -1,0 +1,18 @@
+127.0.0.1 - - [10/Oct/2025 21:31:44] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:44] "GET /styles/main.css HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:44] "GET /assets/images/servicio-yate.png HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:44] "GET /js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:45] "GET /data/database.json HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:45] "GET /components/header.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:45] "GET /components/footer.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] code 404, message File not found
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/servicio-catamaran.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] code 404, message File not found
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/servicio-mansion.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/servicio-chef.png HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] code 404, message File not found
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/destino-san-blas.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/destino-cartagena.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] code 404, message File not found
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/destino-rosario.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [10/Oct/2025 21:31:46] "GET /assets/images/servicio-venta-yate.png HTTP/1.1" 200 -

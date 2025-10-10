@@ -336,15 +336,15 @@ const App = {
         const container = document.getElementById('nosotros');
         if (!container) return;
         container.innerHTML = `
+            <h2 class="section-title animate-on-scroll">Un Estilo de Vida, No Solo un Viaje</h2>
             <div class="about-us-content">
-                <div class="about-text animate-on-scroll">
-                    <h2 class="section-title" style="text-align: left;">Un Estilo de Vida, No Solo un Viaje</h2>
+                <div class="about-text animate-on-scroll glass-panel" style="padding: 40px;">
                     <p>En Cartagena Entertainment, curamos experiencias que definen el lujo. No solo alquilamos yates o mansiones; diseñamos momentos memorables que se convierten en el punto culminante de su vida. Nuestro compromiso es con la exclusividad, la privacidad y un servicio que anticipa cada uno de sus deseos.</p>
                     <br>
                     <a href="pages/quienes-somos.html" class="btn btn-primary">Conoce Nuestra Historia</a>
                 </div>
                 <div class="about-image animate-on-scroll">
-                    <img src="assets/images/servicio-venta-yate.png" alt="Estilo de vida de lujo en yate" style="border-radius: 8px;">
+                    <img src="assets/images/servicio-venta-yate.png" alt="Estilo de vida de lujo en yate" style="border-radius: 12px;">
                 </div>
             </div>`;
         this.observeNewAnimatedElements(container);
@@ -357,22 +357,24 @@ const App = {
         container.innerHTML = `
             <div class="container">
                 <h2 class="section-title animate-on-scroll">Inicia Tu Experiencia</h2>
-                <p class="section-subtitle animate-on-scroll">Contáctanos para diseñar tu próxima aventura de lujo en el Caribe.</p>
-                <div class="contact-content">
-                    <form class="contact-form animate-on-scroll">
-                        <input type="text" placeholder="Nombre Completo" required>
-                        <input type="email" placeholder="Correo Electrónico" required>
-                        <textarea placeholder="Cuéntanos sobre la experiencia que buscas..."></textarea>
-                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
-                    </form>
-                    <div class="contact-info animate-on-scroll">
-                        <p><i class="fas fa-phone"></i> ${company.phone}</p>
-                        <p><i class="fas fa-envelope"></i> ${company.email}</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ${company.address}</p>
-                        <div class="social-links" style="margin-top: 20px;">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                <p class="section-subtitle animate-on-scroll" style="text-align: center; max-width: 600px; margin: 0 auto 50px; opacity: 0.8;">Contáctanos para diseñar tu próxima aventura de lujo en el Caribe.</p>
+                <div class="glass-panel" style="padding: 40px;">
+                    <div class="contact-content">
+                        <form class="contact-form animate-on-scroll">
+                            <input type="text" placeholder="Nombre Completo" required>
+                            <input type="email" placeholder="Correo Electrónico" required>
+                            <textarea placeholder="Cuéntanos sobre la experiencia que buscas..."></textarea>
+                            <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                        </form>
+                        <div class="contact-info animate-on-scroll">
+                            <p><i class="fas fa-phone"></i> ${company.phone}</p>
+                            <p><i class="fas fa-envelope"></i> ${company.email}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${company.address}</p>
+                            <div class="social-links" style="margin-top: 20px;">
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-tiktok"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>

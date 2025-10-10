@@ -3,33 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Destino: Cartagena | AventuraCaribe</title>
-    <meta name="description" content="Explora, descubre y viaja a los destinos más increíbles del Caribe Colombiano con nosotros. Planes personalizados y experiencias inolvidables.">
-
-    <!-- Google Fonts: Poppins y Montserrat -->
+    <title>Detalle del Destino | Cartagena Entertainment</title>
+    <meta name="description" content="Descubre los detalles de nuestros destinos exclusivos en el Caribe.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Hoja de Estilos Principal -->
     <link rel="stylesheet" href="../styles/main.css">
-
 </head>
-<body>
-    <main style="padding-top: 100px;">
+<body id="page-destination-detail">
+    <div class="liquid-background">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+    <!-- El header se insertará aquí dinámicamente -->
+    <main>
+        <section class="hero" style="height: 50vh; background-image: url('../assets/images/destino-cartagena.jpg');">
+             <div class="hero-content">
+                <h1 class="animate-on-scroll">Cartagena de Indias</h1>
+            </div>
+        </section>
+
         <section class="container section">
-            <h1 class="section-title">Cartagena de Indias</h1>
-            <img src="../assets/images/destino-cartagena.jpg" alt="Cartagena" style="width: 100%; border-radius: 8px; margin-bottom: 30px;">
-            <p>Sumérgete en la historia y el encanto de una de las ciudades más bellas del Caribe. Recorre sus calles coloridas, disfruta de su gastronomía y relájate en sus playas cercanas.</p>
-            <!-- Aquí iría más información, itinerario, galería de fotos, etc. -->
-            <a href="../#contacto" class="btn btn-primary" style="margin-top: 20px;">Reservar esta experiencia</a>
+             <div class="glass-panel animate-on-scroll" style="padding: 40px;">
+                <h2 class="section-title">La Joya del Caribe</h2>
+                <img src="../assets/images/destino-cartagena.jpg" alt="Cartagena" style="width: 100%; border-radius: 12px; margin-bottom: 30px; opacity: 0.9;">
+                <p>Sumérgete en la historia y el encanto de una de las ciudades más bellas del Caribe. Recorre sus calles coloridas, disfruta de su gastronomía y relájate en sus playas cercanas. Cartagena es el punto de partida perfecto para una aventura inolvidable a bordo de nuestros yates de lujo, explorando las Islas del Rosario y más allá.</p>
+                <a href="/index.html#contacto" class="btn btn-primary" style="margin-top: 20px;">Diseña tu experiencia en Cartagena</a>
+             </div>
         </section>
     </main>
+    <!-- El footer se insertará aquí dinámicamente -->
 
-    <script src="../js/loadComponents-pages.js"></script>
-    <script src="../js/main.js" defer></script>
+    <!-- ÚNICO SCRIPT REQUERIDO -->
+    <script src="../js/app.js" defer></script>
 </body>
 </html>

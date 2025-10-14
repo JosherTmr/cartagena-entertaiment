@@ -47,6 +47,11 @@ body {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); /* Sombra de texto global sutil */
 }
 
+/* Ajuste para header fijo en páginas interiores */
+body:not(#page-home) {
+    padding-top: 120px;
+}
+
 /* =================================
    FONDO LÍQUIDO ANIMADO
    ================================= */

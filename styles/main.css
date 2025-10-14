@@ -1,36 +1,16 @@
-/* =================================
-   VARIABLES Y ESTILOS GLOBALES - REDISEÑO "LIQUID GLASS"
-   ================================= */
 :root {
-    /* Paleta de colores principal "Lujo Fluido" */
     --color-keppel: #59B4A3;
     --color-mint: #57AA80;
     --color-hookers-green: #486B65;
-
-    /* Paleta extendida */
-    --color-text: #E0F2F1; /* Un blanco roto muy claro para el texto principal */
-    --color-text-dark: #211916; /* Para elementos sobre fondos claros si es necesario */
-    --color-white-transparent: rgba(255, 255, 255, 0.1);
-    --color-white-semitransparent: rgba(255, 255, 255, 0.5);
-
-    /* Variables de Glassmorphism - Contraste Mejorado */
-    --glass-backdrop-filter: blur(25px);
-    --glass-background: rgba(20, 25, 30, 0.4); /* Capa base más oscura y opaca */
-    --glass-background-header: rgba(20, 25, 30, 0.6); /* Aún más opacidad para el header */
-    --glass-border: 1px solid rgba(255, 255, 255, 0.15); /* Borde ligeramente más visible */
-    --glass-box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-
-    /* Variables semánticas */
-    --font-primary: 'Poppins', sans-serif;
+    --color-text: rgba(255, 255, 255, 0.95);
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
     --font-secondary: 'Montserrat', sans-serif;
-    --border-radius: 12px; /* Un poco más redondeado */
-    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -40,381 +20,262 @@ html {
 body {
     font-family: var(--font-primary);
     color: var(--color-text);
+    background: #0a0e12;
+    overflow-x: hidden;
     line-height: 1.6;
-    background-color: #0c1014; /* Fondo oscuro base sobre el que se mueven los blobs */
-    overflow-x: hidden; /* Previene el desbordamiento horizontal de los blobs */
-    position: relative;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); /* Sombra de texto global sutil */
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ajuste para header fijo en páginas interiores */
-body:not(#page-home) {
-    padding-top: 120px;
+/* Corrección para que el header no oculte el contenido */
+:target {
+  scroll-margin-top: 120px;
 }
 
-/* =================================
-   FONDO LÍQUIDO ANIMADO
-   ================================= */
-.liquid-background {
+/* ===== AMBIENT GLOW ===== */
+body::after {
+    content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -10;
-    overflow: hidden;
+    inset: 0;
+    background:
+        radial-gradient(circle at 70% 30%, rgba(89, 180, 163, 0.15), transparent 60%),
+        radial-gradient(circle at 30% 70%, rgba(87, 170, 128, 0.12), transparent 55%);
+    filter: blur(120px);
+    z-index: -2;
+    pointer-events: none;
 }
 
-.blob {
+/* ===== FONDO ANIMADO ===== */
+.background-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background:
+        url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80') center/cover,
+        linear-gradient(135deg, #1a2332 0%, #0a0e12 100%);
+    animation: bg-zoom 20s ease-in-out infinite alternate;
+}
+
+.background-wrapper::before {
+    content: '';
     position: absolute;
-    border-radius: 50%;
-    filter: blur(80px); /* Desenfoque muy pronunciado */
-    opacity: 0.7;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(89,180,163,0.03) 1px, transparent 1px),
+        linear-gradient(rgba(89,180,163,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask: linear-gradient(-20deg, transparent 60%, white);
 }
 
-.blob1 {
-    width: 600px;
-    height: 600px;
-    background-color: var(--color-keppel);
-    top: -150px;
-    left: -150px;
-    animation: move 25s infinite alternate;
+@keyframes bg-zoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
 }
 
-.blob2 {
-    width: 500px;
-    height: 500px;
-    background-color: var(--color-mint);
-    bottom: -100px;
-    right: -200px;
-    animation: move 30s infinite alternate-reverse;
+/* ===== APPLE-STYLE GLASS (Shell + Core) ===== */
+.glass-shell {
+    position: relative;
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+    padding: 1px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.blob3 {
-    width: 400px;
-    height: 400px;
-    background-color: var(--color-hookers-green);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: move 20s infinite alternate;
+.glass-shell:hover {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.04));
 }
 
-@keyframes move {
-    from {
-        transform: translate(0, 0) rotate(0deg);
-    }
-    to {
-        transform: translate(200px, 100px) rotate(180deg);
-    }
-}
-
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Las secciones ya no tienen color, el contenido irá en paneles de cristal */
-.section {
-    padding: 100px 0;
-    position: relative; /* Para que el contenido esté sobre el fondo */
-}
-
-.section-title {
-    font-family: var(--font-secondary);
-    font-size: 2.8rem;
-    text-align: center;
-    margin-bottom: 60px;
-    font-weight: 700;
-    color: var(--color-text); /* Texto claro por defecto */
-}
-
-/* Animación de entrada (fade-in y slide-up) */
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* =================================
-   COMPONENTES (Botones, Tarjetas) - ESTILO GLASSMORPHISM
-   ================================= */
-.btn {
-    display: inline-block;
-    padding: 14px 32px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.4s ease;
-    border: 1px solid transparent;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: var(--color-keppel);
-    color: #fff;
-    box-shadow: 0 4px 20px rgba(89, 180, 163, 0.4);
-}
-.btn-primary:hover {
-    background-color: var(--color-mint);
-    transform: translateY(-5px);
-    box-shadow: 0 6px 25px rgba(87, 170, 128, 0.5);
-}
-
-.btn-secondary {
-    background-color: transparent;
-    border: 1px solid var(--color-white-semitransparent);
-    color: var(--color-text);
-}
-.btn-secondary:hover {
-    background-color: var(--color-white-transparent);
-    color: var(--color-white);
-}
-
-.btn-link {
-    color: var(--color-keppel);
-    font-weight: 600;
-    text-decoration: none;
-}
-.btn-link i {
-    margin-left: 5px;
-    transition: margin-left 0.3s ease;
-}
-.btn-link:hover i {
-    margin-left: 10px;
-}
-
-/* Estilo base para todos los paneles de cristal */
-.glass-panel {
-    background: rgba(20, 25, 30, 0.3);
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--glass-box-shadow);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter); /* Soporte para Safari */
-    transition: background 0.3s ease, border 0.3s ease;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-.glass-panel:hover {
-    background: rgba(20, 25, 30, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-
-/* Tarjeta de cristal */
-.card {
-    background: var(--glass-background);
-    border-radius: var(--border-radius);
-    border: var(--glass-border);
-    box-shadow: var(--glass-box-shadow);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+.glass-displacement {
+    position: relative;
+    backdrop-filter: url(#glass-filter) blur(30px) saturate(1.9) contrast(1.05);
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
     overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    min-height: 380px;
-    display: flex;
-    flex-direction: column;
-}
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
-}
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    opacity: 0.85; /* Ligera opacidad para integrar con el fondo */
-}
-.card-content {
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-.card-content h3 {
-    font-family: var(--font-secondary);
-    margin-bottom: 10px;
-    color: var(--color-text);
-}
-.card-content p {
-    color: var(--color-text);
-    opacity: 0.8;
+    box-shadow:
+        inset 0 0 0.5px rgba(255, 255, 255, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.05),
+        0 4px 30px rgba(0, 0, 0, 0.25),
+        0 8px 60px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* =================================
-   NAVEGACIÓN DE CRISTAL
-   ================================= */
+/* ===== SPECULAR LIGHT (Microglare) ===== */
+.glass-displacement::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.25) 0%,
+        transparent 40%,
+        rgba(255, 255, 255, 0.15) 70%
+    );
+    mix-blend-mode: overlay;
+    opacity: 0.4;
+    animation: lightShift 6s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes lightShift {
+    0% { transform: translateX(-20%) rotate(0deg); }
+    100% { transform: translateX(20%) rotate(2deg); }
+}
+
+/* ===== HEADER ===== */
 .main-header {
     position: fixed;
-    top: 20px; /* Separado del borde superior */
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
     max-width: 1200px;
     z-index: 1000;
-    border-radius: var(--border-radius);
-    transition: all 0.3s ease;
-
-    /* Aplicando el estilo de cristal con mayor contraste */
-    background: var(--glass-background-header);
-    border: var(--glass-border);
-    box-shadow: var(--glass-box-shadow);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.header-top-bar .container {
+.main-header:hover {
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.header-inner {
+    padding: 18px 35px;
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
+    position: relative;
+    z-index: 10;
 }
 
 .logo {
     font-family: var(--font-secondary);
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
-    color: var(--color-text);
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
-.main-nav {
-    display: block;
+.logo:hover {
+    color: rgba(255, 255, 255, 1);
 }
 
 .nav-links {
-    list-style: none;
     display: flex;
-    align-items: center;
-    gap: 35px;
+    gap: 40px;
+    list-style: none;
 }
 
 .nav-links a {
-    text-decoration: none;
     color: var(--color-text);
-    font-weight: 600;
+    text-decoration: none;
+    font-weight: 400;
     font-size: 1rem;
+    letter-spacing: 0.3px;
+    opacity: 0.9;
     position: relative;
-    padding-bottom: 5px;
+    padding: 8px 0;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-links a:hover {
+    opacity: 1;
 }
 
 .nav-links a::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background-color: var(--color-keppel);
-    transition: width 0.4s ease;
+    background: linear-gradient(90deg, var(--color-keppel), var(--color-mint));
+    transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 0 12px var(--color-keppel);
 }
 
-.nav-links a:hover::after,
-.nav-links a.active::after {
+.nav-links a:hover::after {
     width: 100%;
 }
 
-/* Menú desplegable de cristal */
+/* Dropdown Menu Logic */
 .nav-item-dropdown {
     position: relative;
 }
 
-/* Pseudo-elemento para cubrir el espacio entre el enlace y el menú y evitar que se cierre */
-.nav-item-dropdown::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-    height: 15px; /* Debe coincidir con el margin-top del .dropdown-menu */
-    background: transparent;
-}
-
 .dropdown-menu {
-    display: block; /* Se controla con opacidad para transiciones suaves */
+    display: none; /* Oculto por defecto */
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     list-style: none;
     padding: 10px 0;
-    margin-top: 15px; /* Más espacio */
+    margin-top: 15px;
     min-width: 220px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 100;
-    pointer-events: none; /* Evita interacciones cuando está oculto */
+    z-index: 1100;
 
-    /* Estilo de cristal */
-    background: var(--glass-background);
-    border-radius: var(--border-radius);
-    border: var(--glass-border);
-    box-shadow: var(--glass-box-shadow);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    /* Aplicamos el estilo de cristal */
+    border-radius: 18px; /* Menos redondeado que los paneles principales */
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+    padding: 1px;
+}
+
+.dropdown-menu .glass-displacement {
+    border-radius: 18px;
+    padding: 10px 0;
 }
 
 .nav-item-dropdown:hover .dropdown-menu {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto; /* Permite interacciones cuando es visible */
+    display: block; /* Se muestra al hacer hover */
 }
 
 .dropdown-menu li a {
     display: block;
-    padding: 12px 20px;
+    padding: 12px 25px;
     color: var(--color-text);
     text-decoration: none;
     font-weight: 400;
     transition: background-color 0.3s ease;
+    background-color: transparent;
 }
 
 .dropdown-menu li a:hover {
-    background-color: var(--color-white-transparent);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .dropdown-menu li a::after {
-    content: none;
+    content: none; /* El subrayado no es necesario aquí */
 }
 
-.header-actions {
+
+/* ===== HERO ===== */
+.hero {
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--color-text);
-    cursor: pointer;
-}
-
-/* =================================
-   SECCIÓN HERO
-   ================================= */
-.hero-video {
-    position: relative;
-    height: 100vh;
-    display: flex;
     justify-content: center;
-    align-items: center;
     text-align: center;
-    color: var(--color-text);
-    overflow: hidden;
+    padding: 0 20px;
+    position: relative;
 }
-
+/* Compatibilidad con la estructura existente */
+.hero-video {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+}
 #hero-video-bg {
     position: absolute;
     top: 50%;
@@ -423,170 +284,256 @@ body:not(#page-home) {
     height: 100%;
     object-fit: cover;
     transform: translate(-50%, -50%);
-    z-index: -2; /* Detrás del overlay */
-    opacity: 0.5; /* El video es más sutil */
+    z-index: -2;
+    opacity: 0.2; /* Reducir opacidad para que el fondo nuevo sea visible */
 }
 
-/* El overlay oscuro se elimina para dejar pasar el fondo líquido. Se puede añadir si es necesario */
-/* .hero-video::before { ... } */
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
 
 .hero-content h1 {
     font-family: var(--font-secondary);
-    font-size: 4rem;
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 700;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 25px rgba(0,0,0,0.6); /* Sombra más pronunciada */
+    margin-bottom: 15px; /* Reducido para acercar el texto */
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    animation: float 3s ease-in-out infinite, glow 4s ease-in-out infinite alternate;
 }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 10px rgba(89, 180, 163, 0.4); }
+  100% { text-shadow: 0 0 25px rgba(89, 180, 163, 0.8); }
+}
+
 .hero-content p {
-    font-size: 1.5rem;
-    margin-bottom: 40px;
-    font-weight: 300;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.5); /* Sombra más pronunciada */
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    margin-bottom: 50px;
+    opacity: 0.9;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 400;
+    letter-spacing: 0.2px;
 }
 
-/* Barra de Búsqueda de Cristal */
-.booking-bar {
-    padding: 25px;
-    max-width: 900px;
-    margin: 0 auto;
-    /* Aplicando el estilo de cristal con mayor contraste */
-    background: var(--glass-background-header);
-    border-radius: var(--border-radius);
-    border: var(--glass-border);
-    box-shadow: var(--glass-box-shadow);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+/* ===== BOTONES PREMIUM ===== */
+.btn-glass {
+    display: inline-block;
+    padding: 18px 48px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(89, 180, 163, 0.9), rgba(87, 170, 128, 0.9));
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 4px 20px rgba(89, 180, 163, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: none;
 }
 
-.booking-bar form {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 20px;
-    align-items: flex-end;
-}
-
-.booking-bar .form-group {
-    text-align: left;
-}
-
-.booking-bar .form-group label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 10px;
-    display: block;
-}
-
-.booking-bar .form-group label i {
-    margin-right: 8px;
-    color: var(--color-keppel);
-}
-
-.booking-bar .form-group select,
-.booking-bar .form-group input {
+.btn-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
     width: 100%;
-    padding: 12px;
-    border: 1px solid var(--color-white-transparent);
-    border-radius: 8px;
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    background-color: rgba(0, 0, 0, 0.35); /* Fondo más opaco */
-    color: var(--color-text);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
 }
-.booking-bar .form-group select:focus,
-.booking-bar .form-group input:focus {
+
+.btn-glass:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+        0 8px 32px rgba(89, 180, 163, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.btn-glass:hover::before {
+    left: 100%;
+}
+
+/* Compatibilidad con botones antiguos */
+.btn-primary {
+    display: inline-block;
+    padding: 18px 48px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(89, 180, 163, 0.9), rgba(87, 170, 128, 0.9));
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 4px 20px rgba(89, 180, 163, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: none;
+}
+.btn-primary:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+        0 8px 32px rgba(89, 180, 163, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+
+/* ===== BOOKING BAR ===== */
+.booking-bar {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.booking-inner {
+    padding: 40px;
+}
+
+.booking-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.3px;
+}
+
+.form-group label i {
+    margin-right: 6px;
+    opacity: 0.7;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: var(--color-text);
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.form-group input:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--color-keppel);
-    box-shadow: 0 0 0 3px rgba(89, 180, 163, 0.3);
-}
-.booking-bar .form-group select::placeholder,
-.booking-bar .form-group input::placeholder {
-    color: rgba(255, 255, 255, 0.75); /* Placeholder más visible */
+    box-shadow: 0 0 0 3px rgba(89, 180, 163, 0.15);
+    background: rgba(0, 0, 0, 0.35);
 }
 
-.booking-bar .btn-primary {
-    width: 100%;
-    padding: 12px;
-    height: 48px;
+/* ===== SECTIONS & GRIDS ===== */
+.section {
+    padding: 120px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* =================================
-   BOTÓN WHATSAPP
-   ================================= */
-.whatsapp-float {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: linear-gradient(45deg, #25D366, #128C7E);
-    color: var(--color-white);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-    z-index: 999;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.whatsapp-float:hover {
-    transform: scale(1.1) rotate(10deg);
-    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+.section-title {
+    font-family: var(--font-secondary);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    text-align: center;
+    margin-bottom: 80px;
+    letter-spacing: -0.02em;
 }
 
-/* =================================
-   SECCIONES DE CONTENIDO (DESTINOS, PLANES, ETC)
-   ================================= */
-.filters-bar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-}
-.filters-bar .filter-btn {
-    background-color: rgba(0,0,0,0.2);
-    border: 1px solid var(--color-white-transparent);
-    color: var(--color-text);
-    padding: 10px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-.filters-bar .filter-btn:hover {
-    background-color: var(--color-white-transparent);
-    border-color: var(--color-white-semitransparent);
-}
-.filters-bar .filter-btn.active {
-    background-color: var(--color-keppel);
-    color: #fff;
-    border-color: var(--color-keppel);
-    box-shadow: 0 2px 10px rgba(89, 180, 163, 0.3);
-}
-
-.destinos-grid, .services-grid, .blog-grid {
+.services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
 }
 
-/* =================================
-   PIE DE PÁGINA
-   ================================= */
+/* Card adaptation */
+.card {
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    background: none;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+}
+.card.glass-shell {
+    padding: 1px;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+}
+
+.card-inner {
+    padding: 50px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.card-icon, .service-icon {
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, var(--color-keppel), var(--color-mint));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 4px 12px rgba(89, 180, 163, 0.35));
+}
+
+.card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.card p {
+    opacity: 0.85;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    font-weight: 400;
+}
+
+
+/* ===== DYNAMIC BLUR ON SCROLL ===== */
+.blur-on-scroll {
+    transition: filter 0.3s ease;
+}
+
+body.scrolling .blur-on-scroll {
+    filter: blur(2px);
+}
+
+/* ===== FOOTER ===== */
 .main-footer {
-    background-color: rgba(12, 16, 20, 0.5); /* Semi-transparente */
+    background-color: transparent;
     color: var(--color-text);
     padding: 70px 0 0;
     margin-top: 100px;
-    border-top: var(--glass-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
 }
 .footer-content {
@@ -627,123 +574,24 @@ body:not(#page-home) {
 .footer-bottom {
     text-align: center;
     padding: 25px 0;
-    border-top: 1px solid var(--color-white-transparent);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--color-text);
     opacity: 0.7;
 }
 
-/* =================================
-   PÁGINAS INTERIORES Y OTROS COMPONENTES
-   ================================= */
-.hero-about, .hero-servicios {
-    height: 60vh; /* Altura unificada para cabeceras interiores */
-    min-height: 450px;
-}
-.hero-about .hero-content h1,
-.hero-servicios .hero-content h1 {
-    font-size: 3.2rem;
-}
-
-/* Estilos para la sección "Nuestra Esencia" en Quiénes Somos */
-.about-essence-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-}
-
-.about-essence-content .about-image img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
-    object-fit: cover;
-}
-
-/* Paneles grandes para agrupar contenido de secciones */
-.content-panel {
-    padding: 40px;
-    margin-bottom: 40px;
-}
-
-/* Ajuste para formularios en páginas interiores (ej. contacto) */
-.contact-form input, .contact-form textarea {
-    background-color: rgba(0,0,0,0.2);
-    color: var(--color-text);
-    border: 1px solid var(--color-white-transparent);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-.contact-form input:focus, .contact-form textarea:focus {
-    outline: none;
-    border-color: var(--color-keppel);
-    box-shadow: 0 0 0 3px rgba(89, 180, 163, 0.3);
-}
-.contact-form input::placeholder, .contact-form textarea::placeholder {
-    color: var(--color-white-semitransparent);
-}
-
-/* =================================
-   DISEÑO RESPONSIVE
-   ================================= */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .section-title {
-        font-size: 2.2rem;
-    }
-
-    .main-header {
-        top: 10px;
-        width: 90%;
-    }
-
-    .main-nav {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(12, 16, 20, 0.9);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        z-index: 1001;
-        padding-top: 60px;
-    }
-
-    .main-nav.is-open {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .header-actions .btn {
-        display: none;
-    }
-
-    .menu-toggle {
-        display: block;
-        z-index: 1002;
-        position: relative;
-    }
-
-    .booking-bar form {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-content h1 {
-        font-size: 2.8rem;
-    }
-
-    .hero-about .hero-content h1,
-    .hero-servicios .hero-content h1 {
-        font-size: 2.5rem;
-    }
-
-    .destinos-grid, .services-grid, .blog-grid {
-        grid-template-columns: 1fr;
-    }
+  .nav-links { display: none; }
+  .menu-toggle {
+    display: block;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--color-text);
+  }
+  .services-grid { grid-template-columns: 1fr; }
+  .main-header { width: 90%; }
+  .header-inner { padding: 15px 20px; }
+  .booking-form { grid-template-columns: 1fr; }
 }

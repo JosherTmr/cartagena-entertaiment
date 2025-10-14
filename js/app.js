@@ -15,6 +15,7 @@ const App = {
             await this.fetchData();
             this.initComponents();
             this.initAnimationObserver();
+            this.initVisualEffects(); // <-- LLAMADA A LOS NUEVOS EFECTOS
         } catch (error) {
             console.error("Error fatal al inicializar la aplicación:", error);
         }
@@ -190,17 +191,16 @@ const App = {
 
         services.forEach(service => {
             const card = document.createElement('div');
-            card.className = 'card service-card animate-on-scroll';
+            card.className = 'card glass-shell animate-on-scroll';
             const imageUrl = isPagesDir ? `../${service.image}` : service.image;
             const detailUrl = isPagesDir ? `servicio-detalle.html?id=${service.id}` : `pages/servicio-detalle.html?id=${service.id}`;
 
             card.innerHTML = `
-                <img src="${imageUrl}" alt="${service.title}" class="card-img">
-                <div class="card-content">
-                    <span class="category-tag">${service.category}</span>
+                <div class="glass-displacement card-inner">
+                    <div class="service-icon"><i class="fas fa-ship"></i></div>
                     <h3>${service.title}</h3>
                     <p>${service.shortDescription}</p>
-                    <a href="${detailUrl}" class="btn-link">Ver más detalles <i class="fas fa-arrow-right"></i></a>
+                    <a href="${detailUrl}" class="btn-link" style="margin-top: auto; color: var(--color-keppel);">Ver más <i class="fas fa-arrow-right"></i></a>
                 </div>`;
             container.appendChild(card);
         });
@@ -292,15 +292,15 @@ const App = {
         const container = document.getElementById('destinos');
         if (!container) return;
         const destinationsToShow = this.data.destinations.slice(0, 3);
-        let content = '<h2 class="section-title animate-on-scroll">Destinos de Ensueño</h2><div class="destinos-grid">';
+        let content = '<h2 class="section-title animate-on-scroll">Destinos de Ensueño</h2><div class="services-grid">'; // Usamos la misma clase de grid
         destinationsToShow.forEach(destino => {
             content += `
-                <div class="card animate-on-scroll">
-                    <img src="${destino.image}" alt="Imagen de ${destino.name}">
-                    <div class="card-content">
+                <div class="card glass-shell animate-on-scroll">
+                    <div class="glass-displacement card-inner">
+                        <div class="service-icon"><i class="fas fa-map-marked-alt"></i></div>
                         <h3>${destino.name}</h3>
                         <p>${destino.description}</p>
-                        <a href="#" class="btn-link">Explorar <i class="fas fa-arrow-right"></i></a>
+                        <a href="#" class="btn-link" style="margin-top: auto; color: var(--color-keppel);">Explorar <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>`;
         });
@@ -314,14 +314,16 @@ const App = {
         if (!container) return;
         container.innerHTML = `
             <h2 class="section-title animate-on-scroll">Un Estilo de Vida, No Solo un Viaje</h2>
-            <div class="about-us-content">
-                <div class="about-text animate-on-scroll glass-panel" style="padding: 40px;">
-                    <p>En Cartagena Entertainment, curamos experiencias que definen el lujo. No solo alquilamos yates o mansiones; diseñamos momentos memorables que se convierten en el punto culminante de su vida. Nuestro compromiso es con la exclusividad, la privacidad y un servicio que anticipa cada uno de sus deseos.</p>
-                    <br>
-                    <a href="pages/quienes-somos.html" class="btn btn-primary">Conoce Nuestra Historia</a>
+            <div class="about-us-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+                <div class="glass-shell animate-on-scroll">
+                    <div class="glass-displacement" style="padding: 50px 40px;">
+                        <p>En Cartagena Entertainment, curamos experiencias que definen el lujo. No solo alquilamos yates o mansiones; diseñamos momentos memorables que se convierten en el punto culminante de su vida. Nuestro compromiso es con la exclusividad, la privacidad y un servicio que anticipa cada uno de sus deseos.</p>
+                        <br>
+                        <a href="pages/quienes-somos.html" class="btn-glass">Conoce Nuestra Historia</a>
+                    </div>
                 </div>
                 <div class="about-image animate-on-scroll">
-                    <img src="assets/images/servicio-venta-yate.png" alt="Estilo de vida de lujo en yate" style="border-radius: 12px;">
+                    <img src="assets/images/servicio-venta-yate.png" alt="Estilo de vida de lujo en yate" style="border-radius: 24px; width: 100%;">
                 </div>
             </div>`;
         this.observeNewAnimatedElements(container);
@@ -335,22 +337,24 @@ const App = {
             <div class="container">
                 <h2 class="section-title animate-on-scroll">Inicia Tu Experiencia</h2>
                 <p class="section-subtitle animate-on-scroll" style="text-align: center; max-width: 600px; margin: 0 auto 50px; opacity: 0.8;">Contáctanos para diseñar tu próxima aventura de lujo en el Caribe.</p>
-                <div class="glass-panel" style="padding: 40px;">
-                    <div class="contact-content">
-                        <form class="contact-form animate-on-scroll">
-                            <input type="text" placeholder="Nombre Completo" required>
-                            <input type="email" placeholder="Correo Electrónico" required>
-                            <textarea placeholder="Cuéntanos sobre la experiencia que buscas..."></textarea>
-                            <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
-                        </form>
-                        <div class="contact-info animate-on-scroll">
-                            <p><i class="fas fa-phone"></i> ${company.phone}</p>
-                            <p><i class="fas fa-envelope"></i> ${company.email}</p>
-                            <p><i class="fas fa-map-marker-alt"></i> ${company.address}</p>
-                            <div class="social-links" style="margin-top: 20px;">
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <div class="glass-shell animate-on-scroll">
+                    <div class="glass-displacement" style="padding: 40px;">
+                        <div class="contact-content" style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
+                            <form class="contact-form animate-on-scroll">
+                                <input type="text" placeholder="Nombre Completo" required>
+                                <input type="email" placeholder="Correo Electrónico" required>
+                                <textarea placeholder="Cuéntanos sobre la experiencia que buscas..." rows="5"></textarea>
+                                <button type="submit" class="btn-glass">Enviar Mensaje</button>
+                            </form>
+                            <div class="contact-info animate-on-scroll">
+                                <p><i class="fas fa-phone"></i> ${company.phone}</p>
+                                <p><i class="fas fa-envelope"></i> ${company.email}</p>
+                                <p><i class="fas fa-map-marker-alt"></i> ${company.address}</p>
+                                <div class="social-links" style="margin-top: 20px; font-size: 1.5rem;">
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -376,6 +380,52 @@ const App = {
         if (!this.animationObserver || !container) return;
         const elements = container.querySelectorAll('.animate-on-scroll');
         elements.forEach(el => this.animationObserver.observe(el));
+    },
+
+    // --- 8. EFECTOS VISUALES ADICIONALES ---
+    initVisualEffects() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Parallax + Dynamic blur on scroll
+        let ticking = false;
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const background = document.querySelector('.background-wrapper');
+
+                    if (background) {
+                        // El efecto parallax del boceto original puede ser demasiado intenso.
+                        // Lo reducimos para que sea más sutil.
+                        background.style.transform = `translateY(${scrolled * 0.1}px)`;
+                    }
+
+                    // Add/remove scrolling class for subtle blur effect on some elements
+                    if (Math.abs(scrolled - lastScroll) > 5) {
+                        document.body.classList.add('scrolling');
+                        clearTimeout(window.scrollTimeout);
+                        window.scrollTimeout = setTimeout(() => {
+                            document.body.classList.remove('scrolling');
+                        }, 150);
+                    }
+
+                    lastScroll = scrolled;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
     }
 };
 
